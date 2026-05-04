@@ -28,7 +28,7 @@ export function SectionDiscord() {
               </li>
               <li className="flex gap-3">
                 <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400" />
-                Widget ao lado mostra presença no servidor quando ativo pela plataforma.
+                ao lado mostra presença no servidor quando ativo pela plataforma.
               </li>
             </ul>
             <a

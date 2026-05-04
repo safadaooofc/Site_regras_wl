@@ -7,7 +7,7 @@ export function StatsBar() {
     {
       label: "Presença no Discord",
       value: loading ? "…" : count != null ? String(count) : "—",
-      hint: "Fonte: widget oficial (presence_count), atualizado em até 1 min",
+      hint: "atualizado em até 1 min",
     },
     {
       label: "Cidade",

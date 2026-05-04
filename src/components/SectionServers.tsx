@@ -2,23 +2,16 @@ const servers = [
   {
     name: "Cidade Principal",
     tag: "Whitelist",
-    slots: "128 jogadores",
+    slots: "28 jogadores",
     status: "online" as const,
     description:
       "Servidor principal com economia dinâmica, facções e eventos semanais narrados pela staff.",
   },
-  {
-    name: "Eventos & Temporadas",
-    tag: "Aberto",
-    slots: "64 jogadores",
-    status: "online" as const,
-    description:
-      "Rodízio para histórias curtas, torneios e temporadas temáticas sem afetar o save principal.",
-  },
+  
   {
     name: "Laboratório RP",
     tag: "Beta",
-    slots: "32 jogadores",
+    slots: "7 jogadores",
     status: "maintenance" as const,
     description:
       "Ambiente de testes para novas mecânicas — feedback da comunidade antes do lançamento.",

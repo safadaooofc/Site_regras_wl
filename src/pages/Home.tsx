@@ -1,10 +1,10 @@
 import { Hero } from "../components/Hero";
 import { SectionAbout } from "../components/SectionAbout";
+import { SectionBanners } from "../components/SectionBanners";
 import { SectionCTA } from "../components/SectionCTA";
 import { SectionDiscord } from "../components/SectionDiscord";
 import { SectionRules } from "../components/SectionRules";
 import { SectionServers } from "../components/SectionServers";
-import { SectionSocial } from "../components/SectionSocial";
 import { StatsBar } from "../components/StatsBar";
 
 export function Home() {
@@ -16,7 +16,7 @@ export function Home() {
       <SectionRules />
       <SectionServers />
       <SectionDiscord />
-      <SectionSocial />
+      <SectionBanners />
       <SectionCTA />
     </main>
   );

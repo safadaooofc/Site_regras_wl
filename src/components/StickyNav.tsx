@@ -6,7 +6,7 @@ const links = [
   { href: "/regras", label: "Regras" },
   { href: "/#servidores", label: "Servidores" },
   { href: "/#discord", label: "Discord" },
-  { href: "/#redes", label: "Redes" },
+  { href: "/#banners", label: "Banners" },
 ];
 
 export function StickyNav() {

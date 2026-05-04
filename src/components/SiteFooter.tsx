@@ -4,7 +4,7 @@ const footerLinks = [
   { href: "/regras", label: "Regras" },
   { href: "/#servidores", label: "Servidores" },
   { href: "/#discord", label: "Discord" },
-  { href: "/#redes", label: "Redes" },
+  { href: "/#banners", label: "Banners" },
 ];
 
 export function SiteFooter() {

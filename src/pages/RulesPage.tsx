@@ -1,8 +1,26 @@
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { COMMUNITY_NAME, getDiscordInvite } from "../config/community";
-import { RULE_SECTIONS } from "../data/rulesContent";
+import regrasRaw from "../content/regrasrp.txt?raw";
+import {
+  CATEGORY_LABELS,
+  CATEGORY_ORDER,
+  type ParsedRuleSection,
+  type RuleCategory,
+  countByCategory,
+  parseRegrasrp,
+} from "../utils/parseRegrasrp";
 
 export function RulesPage() {
+  const sections = useMemo(() => parseRegrasrp(regrasRaw), []);
+  const totals = useMemo(() => countByCategory(sections), [sections]);
+  const [active, setActive] = useState<RuleCategory>("geral");
+
+  const filtered = useMemo(
+    () => sections.filter((s) => s.category === active),
+    [sections, active]
+  );
+
   return (
     <main className="pb-24 pt-28 md:pb-32 md:pt-32">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
@@ -22,7 +40,11 @@ export function RulesPage() {
             Regulamento da comunidade
           </h1>
           <p className="mt-4 text-lg text-zinc-400">
-            Normas de conduta e roleplay. Texto interno — complemente com avisos fixados no{" "}
+            Texto importado de{" "}
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-sm text-zinc-300">
+              regrasrp.txt
+            </code>{" "}
+            — organizado por categorias. Dúvidas complementares no{" "}
             <a
               href={getDiscordInvite()}
               target="_blank"
@@ -30,19 +52,43 @@ export function RulesPage() {
               className="text-cyan-400 underline-offset-2 hover:underline"
             >
               Discord
-            </a>{" "}
-            quando a staff publicar atualizações formais.
+            </a>
+            .
           </p>
         </header>
 
-        <div className="mt-14 lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 xl:grid-cols-[260px_1fr]">
+        <div
+          className="mt-10 flex gap-2 overflow-x-auto pb-2 md:flex-wrap md:gap-3"
+          role="tablist"
+          aria-label="Categorias das regras"
+        >
+          {CATEGORY_ORDER.map((id) => (
+            <button
+              key={id}
+              type="button"
+              role="tab"
+              aria-selected={active === id}
+              onClick={() => setActive(id)}
+              className={`shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
+                active === id
+                  ? "border-violet-500/50 bg-violet-500/15 text-white shadow-[0_0_20px_rgba(139,92,246,0.2)]"
+                  : "border-white/10 bg-white/5 text-zinc-400 hover:border-white/20 hover:text-white"
+              }`}
+            >
+              {CATEGORY_LABELS[id]}
+              <span className="ml-1.5 text-xs text-zinc-500">({totals[id]})</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-10 lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 xl:grid-cols-[260px_1fr]">
           <aside className="mb-10 lg:mb-0">
-            <div className="glass-card sticky top-28 rounded-2xl p-5">
+            <div className="glass-card sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-2xl p-5">
               <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                Nesta página
+                {CATEGORY_LABELS[active]}
               </p>
               <ul className="mt-4 space-y-2 text-sm">
-                {RULE_SECTIONS.map((s) => (
+                {filtered.map((s) => (
                   <li key={s.id}>
                     <a
                       href={`#${s.id}`}
@@ -57,46 +103,8 @@ export function RulesPage() {
           </aside>
 
           <article className="min-w-0 space-y-14">
-            {RULE_SECTIONS.map((section) => (
-              <section
-                key={section.id}
-                id={section.id}
-                className="scroll-mt-32 border-b border-white/5 pb-14 last:border-0 last:pb-0"
-              >
-                <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-white md:text-3xl">
-                  {section.title}
-                </h2>
-                <div className="mt-6 space-y-5 text-zinc-300">
-                  {section.blocks.map((b, i) => {
-                    if (b.type === "p") {
-                      return (
-                        <p key={i} className="leading-relaxed text-zinc-400">
-                          {b.text}
-                        </p>
-                      );
-                    }
-                    if (b.type === "sub") {
-                      return (
-                        <h3
-                          key={i}
-                          className="pt-2 font-[family-name:var(--font-display)] text-lg font-semibold text-white"
-                        >
-                          {b.title}
-                        </h3>
-                      );
-                    }
-                    return (
-                      <ul key={i} className="list-disc space-y-2 pl-5 text-zinc-400 marker:text-violet-500">
-                        {b.items.map((item, j) => (
-                          <li key={j} className="leading-relaxed">
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    );
-                  })}
-                </div>
-              </section>
+            {filtered.map((section) => (
+              <RuleSectionBlock key={section.id} section={section} />
             ))}
           </article>
         </div>
@@ -115,5 +123,23 @@ export function RulesPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+function RuleSectionBlock({ section }: { section: ParsedRuleSection }) {
+  return (
+    <section
+      id={section.id}
+      className="scroll-mt-32 border-b border-white/5 pb-14 last:border-0 last:pb-0"
+    >
+      <h2 className="font-[family-name:var(--font-display)] text-xl font-semibold text-white md:text-2xl">
+        {section.title}
+      </h2>
+      <div className="mt-6 rounded-2xl border border-white/5 bg-black/20 p-5 md:p-6">
+        <pre className="font-sans text-sm leading-relaxed whitespace-pre-wrap text-zinc-400">
+          {section.body}
+        </pre>
+      </div>
+    </section>
   );
 }
