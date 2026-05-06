@@ -40,9 +40,9 @@ export function RulesPage() {
             Regulamento da comunidade
           </h1>
           <p className="mt-4 text-lg text-zinc-400">
-            Texto importado de{" "}
+            Texto de{" "}
             <code className="rounded bg-white/10 px-1.5 py-0.5 text-sm text-zinc-300">
-              regrasrp.txt
+              Kiover
             </code>{" "}
             — organizado por categorias. Dúvidas complementares no{" "}
             <a
@@ -118,7 +118,7 @@ export function RulesPage() {
             to="/#cta"
             className="mt-6 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-violet-600 to-cyan-500 px-8 py-3 text-sm font-semibold text-white shadow-[0_0_24px_rgba(168,85,247,0.35)] transition hover:brightness-110"
           >
-            Voltar ao início e entrar na cidade
+              Voltar ao início e entrar na Capital MT
           </Link>
         </div>
       </div>

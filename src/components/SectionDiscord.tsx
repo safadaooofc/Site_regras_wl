@@ -24,7 +24,7 @@ export function SectionDiscord() {
             <ul className="mt-8 space-y-3 text-zinc-400">
               <li className="flex gap-3">
                 <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500" />
-                Canais por tema: regras, facções, suporte e novidades da cidade.
+                Canais por tema: regras, facções, suporte e novidades da Capital MT.
               </li>
               <li className="flex gap-3">
                 <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400" />

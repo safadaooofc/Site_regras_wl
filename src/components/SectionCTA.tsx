@@ -17,7 +17,7 @@ export function SectionCTA() {
             aria-hidden
           />
           <h2 className="relative font-[family-name:var(--font-display)] text-3xl font-bold text-white md:text-4xl">
-            Pronto para entrar na cidade?
+            Pronto para entrar na Capital MT?
           </h2>
           <p className="relative mx-auto mt-4 max-w-xl text-lg text-zinc-300">
             Entre no Discord, leia o regulamento completo e siga o fluxo de whitelist. A

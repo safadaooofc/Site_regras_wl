@@ -15,7 +15,7 @@ export function SiteFooter() {
         <div>
           <p className="font-[family-name:var(--font-display)] text-lg font-semibold text-white">
             Capital do MT{" "}
-            <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-600 to-red-900 bg-clip-text text-transparent">
               BR
             </span>
           </p>
@@ -38,7 +38,7 @@ export function SiteFooter() {
       </div>
       <div className="mx-auto mt-10 max-w-6xl border-t border-white/5 px-4 pt-8 md:px-6">
         <p className="text-center text-xs text-zinc-600">
-          © {new Date().getFullYear()} Capital do MT BR — Site da comunidade.
+          © {new Date().getFullYear()} Capital do MT BR .
         </p>
       </div>
     </footer>

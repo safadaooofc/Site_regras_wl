@@ -71,7 +71,7 @@ export function Hero() {
           Capital do MT BR · Roleplay
         </p>
         <h1 className="font-[family-name:var(--font-display)] text-4xl font-bold leading-tight tracking-tight text-white md:text-6xl lg:text-7xl glow-text">
-          A cidade te chama.
+          A Capital MT te chama.
           <br />
           <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400 bg-clip-text text-transparent">
             O RP organiza o caos.
@@ -84,9 +84,9 @@ export function Hero() {
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <a
             href="/#cta"
-            className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-violet-600 to-violet-500 px-8 py-3.5 text-base font-semibold text-white shadow-[0_0_40px_rgba(139,92,246,0.4)] transition hover:brightness-110"
+            className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-red-900 via-red-700 to-red-900 px-8 py-3.5 text-base font-semibold text-white shadow-[0_0_40px_rgba(220,38,38,0.4)] transition hover:brightness-125"
           >
-            Quero começar
+            Entrar na Capital MT
           </a>
           <a
             href="/#servidores"

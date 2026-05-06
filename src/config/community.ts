@@ -1,5 +1,5 @@
 /** Nome exibido no site (ajuste se a staff usar grafia diferente). */
-export const COMMUNITY_NAME = "Capital do MT BR";
+export const COMMUNITY_NAME = "Capital do MT";
 
 const DEFAULT_INVITE = "https://discord.gg/nDz7grbuvB";
 const DEFAULT_GUILD_ID = "1489492393819504692";

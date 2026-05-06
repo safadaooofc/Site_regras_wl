@@ -62,10 +62,10 @@ export function StickyNav() {
         <div className="flex items-center gap-2">
           <a
             href="/#cta"
-            className="hidden rounded-full bg-gradient-to-r from-violet-600 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-[0_0_24px_rgba(168,85,247,0.35)] transition hover:brightness-110 sm:inline-flex"
+           className="hidden rounded-full bg-gradient-to-r from-red-900 via-red-700 to-red-900 px-4 py-2 text-sm font-semibold text-white shadow-[0_0_24px_rgba(220,38,38,0.3)] transition hover:brightness-125 sm:inline-flex"
             onClick={() => setOpen(false)}
           >
-            Jogar agora
+            Entrar na Capital MT
           </a>
           <button
             type="button"
@@ -108,7 +108,7 @@ export function StickyNav() {
               className="mt-2 rounded-full bg-gradient-to-r from-violet-600 to-cyan-500 py-3 text-center text-sm font-semibold text-white"
               onClick={() => setOpen(false)}
             >
-              Jogar agora
+              Entrar na Capital MT
             </a>
           </nav>
         </div>

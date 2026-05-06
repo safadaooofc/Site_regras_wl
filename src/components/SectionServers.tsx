@@ -1,17 +1,17 @@
 const servers = [
   {
-    name: "Cidade Principal",
+    name: "Principal",
     tag: "Whitelist",
-    slots: "28 jogadores",
+    slots: "8 jogadores",
     status: "online" as const,
     description:
       "Servidor principal com economia dinâmica, facções e eventos semanais narrados pela staff.",
   },
   
   {
-    name: "Laboratório RP",
+    name: "Servidor Beta",
     tag: "Beta",
-    slots: "7 jogadores",
+    slots: "2 jogadores",
     status: "maintenance" as const,
     description:
       "Ambiente de testes para novas mecânicas — feedback da comunidade antes do lançamento.",
