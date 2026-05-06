@@ -1,4 +1,62 @@
+import { useEffect, useMemo, useState } from "react";
+
+type CountdownState = {
+  dias: number;
+  horas: number;
+  minutos: number;
+  segundos: number;
+  finalizado: boolean;
+};
+
+function getTargetDate() {
+  const now = new Date();
+  const currentMonthTarget = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    8,
+    20,
+    0,
+    0,
+    0
+  );
+
+  if (now.getTime() <= currentMonthTarget.getTime()) {
+    return currentMonthTarget;
+  }
+
+  return new Date(now.getFullYear(), now.getMonth() + 1, 8, 20, 0, 0, 0);
+}
+
+function buildCountdown(targetDate: Date): CountdownState {
+  const now = new Date();
+  const diff = targetDate.getTime() - now.getTime();
+
+  if (diff <= 0) {
+    return { dias: 0, horas: 0, minutos: 0, segundos: 0, finalizado: true };
+  }
+
+  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diff / (1000 * 60)) % 60);
+  const segundos = Math.floor((diff / 1000) % 60);
+
+  return { dias, horas, minutos, segundos, finalizado: false };
+}
+
 export function Hero() {
+  const targetDate = useMemo(() => getTargetDate(), []);
+  const [countdown, setCountdown] = useState<CountdownState>(() =>
+    buildCountdown(targetDate)
+  );
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setCountdown(buildCountdown(targetDate));
+    }, 1000);
+
+    return () => window.clearInterval(intervalId);
+  }, [targetDate]);
+
   return (
     <section
       id="inicio"
@@ -36,6 +94,39 @@ export function Hero() {
           >
             Ver servidores
           </a>
+        </div>
+        <div className="mx-auto mt-8 max-w-xl rounded-2xl border border-violet-400/30 bg-violet-500/10 px-6 py-4 backdrop-blur-sm">
+          <p className="text-sm font-semibold uppercase tracking-widest text-violet-200/90">
+            Atualização dia 8 às 20:00
+          </p>
+          {countdown.finalizado ? (
+            <p className="mt-2 text-lg font-semibold text-white">
+              A atualização já começou 🚀
+            </p>
+          ) : (
+            <div className="mt-3 flex items-center justify-center gap-3 text-white">
+              <div className="min-w-16 rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                <p className="text-2xl font-bold leading-none">{countdown.dias}</p>
+                <p className="mt-1 text-xs uppercase tracking-wider text-zinc-300">Dias</p>
+              </div>
+              <div className="min-w-16 rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                <p className="text-2xl font-bold leading-none">{countdown.horas}</p>
+                <p className="mt-1 text-xs uppercase tracking-wider text-zinc-300">Horas</p>
+              </div>
+              <div className="min-w-16 rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                <p className="text-2xl font-bold leading-none">{countdown.minutos}</p>
+                <p className="mt-1 text-xs uppercase tracking-wider text-zinc-300">
+                  Min
+                </p>
+              </div>
+              <div className="min-w-16 rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                <p className="text-2xl font-bold leading-none">{countdown.segundos}</p>
+                <p className="mt-1 text-xs uppercase tracking-wider text-zinc-300">
+                  Seg
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
