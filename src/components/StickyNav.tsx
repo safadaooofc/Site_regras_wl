@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { COMPANY_NAME } from "../config/community";
 
 const links = [
   { href: "/#inicio", label: "Início" },
-  { href: "/#sobre", label: "Sobre" },
-  { href: "/regras", label: "Regras" },
-  { href: "/#servidores", label: "Servidores" },
+  { href: "/#filiais", label: "Filiais" },
+  { href: "/#regras", label: "Regras" },
+  { href: "/regras/rp", label: "Regras RP" },
+  { href: "/regras/eb", label: "Regras EB" },
   { href: "/#discord", label: "Discord" },
   { href: "/#equipe", label: "Equipe" },
-  { href: "/#banners", label: "Banners" },
+  { href: "/#banners", label: "Galeria" },
 ];
 
 export function StickyNav() {
@@ -31,45 +34,38 @@ export function StickyNav() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-[background,box-shadow,border-color] duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-200 ${
         scrolled || open
-          ? "border-b border-white/10 bg-[#0a0a10]/85 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent"
+          ? "border-white/10 bg-[#0f1419]/95 backdrop-blur-md"
+          : "border-transparent bg-transparent"
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-6">
-        <a
-          href="/"
-          className="font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight text-white"
+        <Link
+          to="/"
+          className="font-[family-name:var(--font-display)] text-lg font-semibold text-white"
           onClick={() => setOpen(false)}
         >
-          Capital do MT{" "}
-          <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
-            BR
-          </span>
-        </a>
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Principal">
+          {COMPANY_NAME}
+        </Link>
+        <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Principal">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="rounded-lg px-3 py-2 text-sm text-zinc-300 transition-colors hover:bg-white/5 hover:text-white"
+              className="rounded-md px-2.5 py-2 text-sm text-zinc-400 transition-colors hover:bg-white/5 hover:text-white"
             >
               {l.label}
             </a>
           ))}
         </nav>
         <div className="flex items-center gap-2">
-          <a
-            href="/#cta"
-           className="hidden rounded-full bg-gradient-to-r from-red-900 via-red-700 to-red-900 px-4 py-2 text-sm font-semibold text-white shadow-[0_0_24px_rgba(220,38,38,0.3)] transition hover:brightness-125 sm:inline-flex"
-            onClick={() => setOpen(false)}
-          >
-            Entrar na Capital MT
+          <a href="/#cta" className="btn-primary hidden sm:inline-flex" onClick={() => setOpen(false)}>
+            Contato
           </a>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-white md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/10 text-white xl:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Fechar menu" : "Abrir menu"}
@@ -90,25 +86,21 @@ export function StickyNav() {
       {open && (
         <div
           id="mobile-menu"
-          className="border-t border-white/10 bg-[#0a0a10]/95 px-4 py-4 backdrop-blur-xl md:hidden"
+          className="border-t border-white/10 bg-[#0f1419] px-4 py-4 xl:hidden"
         >
           <nav className="flex flex-col gap-1" aria-label="Mobile">
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
-                className="rounded-lg px-3 py-3 text-zinc-200 hover:bg-white/5"
+                className="rounded-md px-3 py-3 text-zinc-300 hover:bg-white/5"
                 onClick={() => setOpen(false)}
               >
                 {l.label}
               </a>
             ))}
-            <a
-              href="/#cta"
-              className="mt-2 rounded-full bg-gradient-to-r from-violet-600 to-cyan-500 py-3 text-center text-sm font-semibold text-white"
-              onClick={() => setOpen(false)}
-            >
-              Entrar na Capital MT
+            <a href="/#cta" className="btn-primary mt-2 text-center" onClick={() => setOpen(false)}>
+              Contato
             </a>
           </nav>
         </div>

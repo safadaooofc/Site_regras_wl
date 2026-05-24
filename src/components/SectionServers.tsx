@@ -1,82 +1,68 @@
-const servers = [
+import { RP_FILIAL_NAME, EB_FILIAL_NAME } from "../config/community";
+
+const filiais = [
   {
-    name: "Principal",
-    tag: "Whitelist",
-    slots: "8 jogadores",
-    status: "online" as const,
+    name: RP_FILIAL_NAME,
+    tag: "Filial RP",
+    status: "rebuilding" as const,
     description:
-      "Servidor principal com economia dinâmica, facções e eventos semanais narrados pela staff.",
+      "Reinauguração do mapa e do roleplay após a perda do mapa anterior. Whitelist, economia e data de abertura serão anunciadas no Discord da filial.",
+    cta: { href: "/regras/rp", label: "Regras RP" },
   },
-  
   {
-    name: "Servidor Beta",
-    tag: "Beta",
-    slots: "2 jogadores",
-    status: "maintenance" as const,
+    name: EB_FILIAL_NAME,
+    tag: "Filial EB",
+    status: "active" as const,
     description:
-      "Ambiente de testes para novas mecânicas — feedback da comunidade antes do lançamento.",
+      "Organização militar com recrutamento, treinos e patente. Manual de recrutamento e regulamento na aba de regras EB.",
+    cta: { href: "/regras/eb", label: "Regras EB" },
   },
 ];
 
-function StatusDot({ status }: { status: "online" | "maintenance" }) {
-  if (status === "online") {
+function StatusBadge({ status }: { status: "active" | "rebuilding" }) {
+  if (status === "active") {
     return (
-      <span className="inline-flex items-center gap-2 text-sm text-emerald-400">
-        <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-        </span>
-        Online
+      <span className="inline-flex items-center gap-2 text-sm text-emerald-500/90">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+        Ativo
       </span>
     );
   }
   return (
-    <span className="inline-flex items-center gap-2 text-sm text-amber-400">
-      <span className="h-2 w-2 rounded-full bg-amber-400" />
-      Manutenção
+    <span className="inline-flex items-center gap-2 text-sm text-blue-400/90">
+      <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
+      Mapa em reinauguração
     </span>
   );
 }
 
 export function SectionServers() {
   return (
-    <section id="servidores" className="scroll-mt-24 py-20 md:py-28">
+    <section id="filiais" className="scroll-mt-24 py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-white md:text-4xl">
-          Servidores
+          Filiais
         </h2>
         <p className="mt-4 max-w-2xl text-lg text-zinc-400">
-          Escolha onde entrar — cada ambiente tem propósito e regras específicas
-          listadas no Discord.
+          Duas operações sob a Reuel — roleplay urbano e Exército Brasileiro.
         </p>
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {servers.map((s) => (
-            <article
-              key={s.name}
-              className="glass-card flex flex-col rounded-2xl p-6 transition hover:border-cyan-400/20"
-            >
+        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+          {filiais.map((f) => (
+            <article key={f.name} className="glass-card flex flex-col rounded-lg p-6">
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <h3 className="font-[family-name:var(--font-display)] text-xl font-semibold text-white">
-                    {s.name}
+                    {f.name}
                   </h3>
-                  <p className="mt-1 text-sm text-zinc-500">{s.slots}</p>
+                  <p className="mt-1 text-sm text-zinc-500">{f.tag}</p>
                 </div>
-                <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-300">
-                  {s.tag}
-                </span>
               </div>
               <div className="mt-4">
-                <StatusDot status={s.status} />
+                <StatusBadge status={f.status} />
               </div>
-              <p className="mt-4 flex-1 text-sm leading-relaxed text-zinc-400">
-                {s.description}
-              </p>
-              <a
-                href="#cta"
-                className="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-semibold text-white transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-200"
-              >
-                Obter acesso
+              <p className="mt-4 flex-1 text-sm leading-relaxed text-zinc-400">{f.description}</p>
+              <a href={f.cta.href} className="btn-secondary mt-6 w-full text-center">
+                {f.cta.label}
               </a>
             </article>
           ))}

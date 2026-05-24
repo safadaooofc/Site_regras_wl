@@ -1,27 +1,24 @@
+import { COMPANY_NAME } from "../config/community";
+
 const footerLinks = [
   { href: "/#inicio", label: "Início" },
-  { href: "/#sobre", label: "Sobre" },
-  { href: "/regras", label: "Regras" },
-  { href: "/#servidores", label: "Servidores" },
+  { href: "/#filiais", label: "Filiais" },
+  { href: "/regras/rp", label: "Regras RP" },
+  { href: "/regras/eb", label: "Regras EB" },
   { href: "/#discord", label: "Discord" },
   { href: "/#equipe", label: "Equipe" },
-  { href: "/#banners", label: "Banners" },
 ];
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/10 bg-[#06060a] py-12">
+    <footer className="border-t border-white/8 bg-[#0a0e14] py-12">
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 md:flex-row md:items-start md:justify-between md:px-6">
         <div>
           <p className="font-[family-name:var(--font-display)] text-lg font-semibold text-white">
-            Capital do MT{" "}
-            <span className="bg-gradient-to-r from-red-600 to-red-900 bg-clip-text text-transparent">
-              BR
-            </span>
+            {COMPANY_NAME}
           </p>
           <p className="mt-2 max-w-xs text-sm text-zinc-500">
-            Comunidade de roleplay — Mato Grosso. Whitelist, regras e eventos pelo Discord
-            oficial.
+            Empresa central · filiais Capital MT BR e Exército Brasileiro.
           </p>
         </div>
         <nav className="flex flex-wrap gap-x-8 gap-y-3" aria-label="Rodapé">
@@ -29,7 +26,7 @@ export function SiteFooter() {
             <a
               key={l.href + l.label}
               href={l.href}
-              className="text-sm text-zinc-400 transition hover:text-cyan-400"
+              className="text-sm text-zinc-500 transition hover:text-zinc-300"
             >
               {l.label}
             </a>
@@ -38,7 +35,7 @@ export function SiteFooter() {
       </div>
       <div className="mx-auto mt-10 max-w-6xl border-t border-white/5 px-4 pt-8 md:px-6">
         <p className="text-center text-xs text-zinc-600">
-          © {new Date().getFullYear()} Capital do MT BR .
+          © {new Date().getFullYear()} {COMPANY_NAME}
         </p>
       </div>
     </footer>

@@ -1,0 +1,321 @@
+EB] Exército Brasileiro Instruções para Recrutamento
+
+Informações Importantes: · ·
+
+Trechos na cor verde: São apenas para você. Trechos na cor vermelha: São observações para os civis.
+
+REGRAS PARA APLICAÇÃO DE UM RECRUTAMENTO:
+
+· ·
+
+Somente [CB] Cabo+ podem aplicar recrutamentos. Explique quantas vezes for necessário retirando quaisquer dúvidas.
+
+·
+
+Durante a avaliação prática não fique marchando com os civis ao redor de todo local de recrutamento, apenas em um determinado perímetro, não atrapalhando outros recrutadores.
+
+·
+
+Ao reprovar um civil, explique-o o motivo dele estar sendo reprovado, de uma forma respeitosa e formal, sendo sempre receptivo.
+
+·
+
+Tenha paciência afinal eles estão aqui para aprender.
+
+Não mate civis, em caso de reprovação os leve até o portão caso eles neguem, tem permissão para matar.
+
+Parte Teórica:
+
+Todas as informações abaixo que não estão em verde devem ser passadas aos civis: Apresentação:
+
+Olá, seja muito bem-vindo(a) ao Exército Brasileiro, me chamo (Seu nick) e serei responsável por aplicar seu recrutamento.
+
+Mantenha-se em silêncio, preste atenção e tire suas possíveis dúvidas.
+
+Regras:
+
+Agora irei falar algumas das regras do Exército que você deve seguir tanto aqui no jogo como em nosso discórdia.
+
+- Proibido usar chapéu de oficial;
+
+- Proibido executar algum inferior ou superior, sem motivo.
+
+- Proibido qualquer tipo de abreviação, exemplo : vc , pq , cd.
+
+- É permitido o uso de carinhas, mas evite usar constantemente; - Proibido falar palavras ofensivas.
+
+- Proibido usar equipamentos de outras divisões.
+
+- Não abata civis, atoa.
+
+- CABOS + Pode ficar fora de base (Com permissão).
+
+- Somente "Aspirante á Oficial" ganha moderador.
+
+- Não peça promoção de patente. (Exilamento Permamente)
+
+- Proibido ser de qualquer outra organização militar, enquanto estiver em nosso exército.
+
+- Respeite todos, sendo seu superior ou não.
+
+- Não arrume confusão, arrumar brigas, só irá causar problema.
+
+- Não treine em nenhum local, sem permissão.
+
+- Sem perguntas pessoais no exército.
+
+- Não brinque em posição.
+
+- Não entre em nenhum servidor militar.
+
+- Não peça nenhum tipo de moderador, apenas Aspirantes à Oficiais, ganham.
+
+- Utilize gramática, sua gramática, será avaliada.
+
+- Somente OFICIAIS subalternos+, podem aplicar algum treino.
+
+- Disciplina é obrigatório no EB.
+
+- Pode usar gírias, mas não use para se dirigir á um oficial. Exemplo de gírias: Eae, Koe, Mano
+
+Pergunte aos civis: Alguma dúvida?
+
+Comandos de Resposta:
+
+Agora irei prosseguir o recrutamento explicando os comandos de resposta, sendo eles:
+
+ESQUERDA VOLVER ! DIREI TA VOLVER ! RETAGUARDA ! CONTROL FACE ! CENTRAL FACE !
+
+ESQUERDA VOLVER: Você irá virar para sua esquerda.
+
+DIREI TA VOLVER: Você irá virar para sua direi ta.
+
+RETAGUARDA: Você irá virar para o lado oposto (o lado de trás) do atual.
+
+CENTRAL FACE: Você irá virar para o posto inicial, no caso onde o instrutor se encontra.
+
+CONTROL FACE: Você irá seguir o instrutor, usando a camêra.
+
+Pergunte aos civis: Alguma dúvida?
+
+Comandos de Formação:
+
+Agora irei explicar comandos que são utilizados para fazerem formações:
+
+Formação: É o comando no qual os soldados devem ficar em cima de um dos quadrados, ficando em posição de ombro á ombro quando dado o comando.
+
+Fila única: É o comando no qual os soldados deve fazer uma fila atrás do Oficial organizadamente, sem ficar grudado nos outros militares quando dado o comando: Fila única! Fila dupla: É o comando no qual os soldados devem fazer uma fila dupla atrás do Oficial. Cunha: Os soldados devem ir no ombro do instrutor ou pessoa indicada, como um V, o instrutor no meio. E os outros mais atrás com ombros alinhados. Exemplo:
+
+Pergunte aos civis: Alguma dúvida?
+
+Comandos de Marcha:
+
+Atualmente temos alguns comandos de marcha, sendo eles:
+
+PREPARAR PARA MARCHAR !
+
+MARCHEM/MARCHANDO !
+
+e AUTO !
+
+O comando PREPARAR PARA MARCHAR serve para informar aos soldados para se prepararem, para a marcha.
+
+O comando MARCHEM é um comando no qual manda os militares marcharem atrás do instrutor.
+
+O comando AUTO serve para informar aos soldados que é para pararem de marchar.
+
+Pergunte aos civis: Alguma dúvida?
+
+Comandos de Pelotão de Tiro:
+
+Aqui temos comandos aos quais são ordenados com a utilização da arma, sendo eles:
+
+PREPARAR ! (Pegue a arma)
+
+APONTAR ! (Mire com a arma no alvo indicado)
+
+FOGO ! (Apenas atire uma única vez, ou seja, um tiro)
+
+FOGO LIVRE ! (Atire até descarregar o pente e não recarregue a arma)
+
+CESSAR FOGO ! (Pare de atirar)
+
+RECARREGAR ! (Recarregue a arma apertando R)
+
+DESARMAR ! (Retire a arma da mão)
+
+Pergunte aos civis: Alguma dúvida?
+
+Comandos Falsos:
+
+No Exército existem os comandos falsos, que fazem parte de todos os comandos do Exército Brasileiro, sendo eles: Comandos de resposta, comandos de marcha e todos os outros comandos em geral.
+
+Para detectar se um comando falso é necessário ler a escrita e ver se está correta, se ela estiver incorreta é um comando falso, mesmo faltando algum caractere (letras,números,simbolos,etc...)
+
+Após explicar isto dê exemplos de comandos falsos. Pergunte aos civis: Alguma dúvida?
+
+JJ's: Irei explicar as JJ's, bom, JJ's são como os polichinelos, quando um oficial dizer 10 JJ's, você irá fazer as 10 JJ's, pulando e escrevendo o número em letra maiúsculo, colocando o "!" no final.
+
+Faça alguns JJ's com prática.
+
+Pergunte aos civis: Alguma dúvida?
+
+Comunicações: As comunicações são comandos simples criados pelo Exército para não atrasar treinamentos, ou seja, esses comandos devem ser usados apenas no Campo de Treinamento ou nos recrutamentos do Exército, sendo eles:
+
+PPF ! PPS !
+
+PPA !
+
+PPF: Permissão Para Falar. PPS: Permissão Para Sair. PPA: Permissão Para Assistir.
+
+Pergunte aos civis: Alguma dúvida?
+
+Comandos de Mão:
+
+Aqui temos comandos adicionais aos quais também são muito utilizados dentro do Exército, sendo eles:
+
+CONTINÊNCIA ! Á VONTADE ! DESCANSAR !
+
+CONTINÊNCIA: Entre em continência. Á VONTADE: Fique sem nada. DESCANSAR: Coloque suas mãos para trás.
+
+Pergunte aos civis: Alguma dúvida?
+
+Pronomes:
+
+Pronomes, devem ser utilizados, com todos os oficiais do exército brasileiro. Exemplo de pronomes: Senhor/Senhora
+
+Pergunte aos civis: Alguma dúvida?
+
+Avaliação:
+
+Agora faça uma avaliação há ele, testando o Parkour, Torre.
+
+ATENÇÃO GRADUADOS: Agora avalie na prática tudo o que você ensinou a eles para ver se aprenderam tudo.
+
+E no final diga: Parabéns aos aprovados, peço que entre em nosso discordia e em nosso grupo, o link se encontra na descrição. Obrigado por servir, bem-vindo ao Exército Brasileiro.
+
+
+📜 REGRAS DO EXÉRCITO BRASILEIRO (EB)
+
+⚖️ Conduta Geral
+
+Respeitar todos os membros, independentemente da patente.
+
+
+É proibido qualquer tipo de preconceito (racismo, homofobia, etc.).
+
+
+Não utilizar linguagem ofensiva ou agressiva.
+
+
+Evite discussões desnecessárias no chat.
+
+
+Sempre manter postura e disciplina militar.
+
+
+
+
+---
+
+🎖️ Hierarquia e Autoridade
+
+Respeitar superiores SEMPRE.
+
+
+Ordens devem ser cumpridas sem questionamentos durante operações.
+
+
+Não se passar por superior ou staff.
+
+
+Uso indevido de cargos resultará em punição.
+
+
+Promoções são decididas apenas por oficiais autorizados.
+
+
+
+
+---
+
+💬 Chat e Comunicação
+
+Evitar spam ou flood.
+
+
+Não enviar links sem permissão.
+
+
+Proibido divulgar outros servidores.
+
+
+Use os canais corretos para cada assunto.
+
+
+Não escrever em CAPS excessivamente.
+
+
+
+
+---
+
+🔐 Segurança
+
+Não compartilhar dados pessoais.
+
+
+Não pedir informações sensíveis de outros membros.
+
+
+Evite clicar em links suspeitos.
+
+
+Denuncie qualquer comportamento estranho à administração.
+
+
+Uso de hacks ou exploits é proibido.
+
+
+
+
+---
+
+🎮 Dentro do Jogo / Simulação
+
+Respeitar regras das bases e treinamentos.
+
+
+Não atrapalhar formações ou eventos.
+
+
+Proibido trollar durante operações.
+
+
+Seguir comandos dos instrutores.
+
+
+Uso correto de uniformes é obrigatório.
+
+
+
+
+---
+
+📢 Eventos e Treinamentos
+
+Comparecer aos treinos quando convocado.
+
+
+Chegar no horário marcado.
+
+
+Manter silêncio durante instruções.
+
+
+Não interromper superiores durante explicações.
+
+
+Participar com seriedade e disciplina.
+
+SIGAM AS REGRAS

@@ -31,7 +31,7 @@ export function SectionBanners() {
         {/* Seção Oficial */}
         <div className="mt-16">
           <h3 className="flex items-center gap-3 font-[family-name:var(--font-display)] text-xl font-semibold text-white">
-            <span className="h-px w-8 bg-violet-500/50" />
+            <span className="h-px w-8 bg-sky-500/50" />
             Banners Oficiais
           </h3>
           
@@ -90,7 +90,7 @@ export function SectionBanners() {
 function ImageCard({ src, isSmall = false }: { src: string; isSmall?: boolean }) {
   const label = labelFromUrl(src);
   return (
-    <figure className="group relative glass-card overflow-hidden rounded-2xl border border-white/10 p-2 transition-all hover:border-violet-500/30">
+    <figure className="group relative glass-card overflow-hidden rounded-2xl border border-white/10 p-2 transition-all hover:border-sky-400/30">
       {/* Adaptive Background */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <img

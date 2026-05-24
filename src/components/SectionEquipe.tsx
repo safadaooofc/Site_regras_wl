@@ -1,121 +1,99 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
+import equipeRaw from "../content/equipe.txt?raw";
+import { COMPANY_NAME, EB_FILIAL_NAME, RP_FILIAL_NAME } from "../config/community";
+import { parseEquipe, type ParsedTeam, type TeamMember } from "../utils/parseEquipe";
 
-const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
+function MemberRow({ member }: { member: TeamMember }) {
+  return (
+    <li className="flex flex-col gap-0.5 border-b border-white/5 py-2.5 last:border-0 last:pb-0">
+      <span className="font-medium text-zinc-200">{member.name}</span>
+      {member.note && (
+        <span className="text-xs text-zinc-500">{member.note}</span>
+      )}
+    </li>
+  );
+}
 
-const teamGroups = [
-  {
-    role: "Desenvolvedores",
-    members: ["Kiover (desenvolvedor chefe)", "Dark (builder)"],
-  },
-  {
-    role: "Dono",
-    members: ["Reuel"],
-  },
-  {
-    role: "Co fundadores",
-    members: ["Kiover", "Detetive"],
-  },
-  {
-    role: "Syroevusir",
-    members: ["Samuel"],
-  },
-  {
-    role: "Staffs",
-    members: ["Emanuel", "Heitor", "Galego"],
-  },
-];
+function TeamPanel({ team }: { team: ParsedTeam }) {
+  const isRp = team.branch === "rp";
+  const total = team.groups.reduce((n, g) => n + g.members.length, 0);
 
-function getCountdownParts(diffMs: number) {
-  const totalSeconds = Math.max(0, Math.floor(diffMs / 1000));
-  const days = Math.floor(totalSeconds / 86_400);
-  const hours = Math.floor((totalSeconds % 86_400) / 3_600);
-  const minutes = Math.floor((totalSeconds % 3_600) / 60);
-  const seconds = totalSeconds % 60;
-  return { days, hours, minutes, seconds };
+  return (
+    <div
+      className={`rounded-xl border p-6 md:p-8 ${
+        isRp
+          ? "border-blue-500/20 bg-blue-950/10"
+          : "border-amber-600/20 bg-amber-950/10"
+      }`}
+    >
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p
+            className={`text-xs font-semibold uppercase tracking-wider ${
+              isRp ? "text-blue-400/90" : "text-amber-600/90"
+            }`}
+          >
+            Filial {isRp ? "RP" : "EB"}
+          </p>
+          <h3 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-bold text-white">
+            {team.label}
+          </h3>
+        </div>
+        <p className="text-sm text-zinc-500">
+          {team.groups.length} {team.groups.length === 1 ? "área" : "áreas"} · {total}{" "}
+          {total === 1 ? "membro" : "membros"}
+        </p>
+      </div>
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {team.groups.map((group) => (
+          <article
+            key={`${team.branch}-${group.role}`}
+            className="glass-card rounded-lg p-5"
+          >
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
+              {group.role}
+            </h4>
+            <ul className="mt-3">
+              {group.members.map((member) => (
+                <MemberRow key={`${group.role}-${member.name}`} member={member} />
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export function SectionEquipe() {
-  const [targetAt] = useState(() => Date.now() + THREE_DAYS_MS);
-  const [now, setNow] = useState(() => Date.now());
-
-  useEffect(() => {
-    const id = window.setInterval(() => setNow(Date.now()), 1000);
-    return () => window.clearInterval(id);
-  }, []);
-
-  const countdown = useMemo(() => getCountdownParts(targetAt - now), [now, targetAt]);
-  const isReleased = targetAt - now <= 0;
+  const teams = useMemo(() => parseEquipe(equipeRaw), []);
 
   return (
-    <section id="equipe" className="scroll-mt-24 border-y border-white/5 bg-[#0c0c14]/70 py-20 md:py-28">
+    <section id="equipe" className="scroll-mt-24 border-y border-white/8 py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <div className="rounded-2xl border border-violet-500/25 bg-gradient-to-br from-violet-950/55 via-[#11111a] to-cyan-950/35 p-6 md:p-8">
-          <p className="text-xs font-semibold uppercase tracking-widest text-violet-300">
-            Próxima mega atualização
-          </p>
-          <h2 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-bold text-white md:text-4xl">
-            Contagem regressiva oficial
+        <div className="max-w-2xl">
+          <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-white md:text-4xl">
+            Equipe
           </h2>
-          <p className="mt-3 max-w-2xl text-zinc-300">
-            {isReleased
-              ? "A mega atualização já está liberada!"
-              : "Falta pouco: a próxima mega atualização chega em até 3 dias."}
+          <p className="mt-4 text-lg text-zinc-400">
+            Organização da {COMPANY_NAME} por filial — {RP_FILIAL_NAME} e {EB_FILIAL_NAME}.
           </p>
-          {!isReleased && (
-            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              <div className="glass-card rounded-xl p-4 text-center">
-                <p className="font-[family-name:var(--font-display)] text-3xl font-bold text-white">
-                  {String(countdown.days).padStart(2, "0")}
-                </p>
-                <p className="mt-1 text-xs uppercase tracking-wider text-zinc-400">Dias</p>
-              </div>
-              <div className="glass-card rounded-xl p-4 text-center">
-                <p className="font-[family-name:var(--font-display)] text-3xl font-bold text-white">
-                  {String(countdown.hours).padStart(2, "0")}
-                </p>
-                <p className="mt-1 text-xs uppercase tracking-wider text-zinc-400">Horas</p>
-              </div>
-              <div className="glass-card rounded-xl p-4 text-center">
-                <p className="font-[family-name:var(--font-display)] text-3xl font-bold text-white">
-                  {String(countdown.minutes).padStart(2, "0")}
-                </p>
-                <p className="mt-1 text-xs uppercase tracking-wider text-zinc-400">Min</p>
-              </div>
-              <div className="glass-card rounded-xl p-4 text-center">
-                <p className="font-[family-name:var(--font-display)] text-3xl font-bold text-white">
-                  {String(countdown.seconds).padStart(2, "0")}
-                </p>
-                <p className="mt-1 text-xs uppercase tracking-wider text-zinc-400">Seg</p>
-              </div>
-            </div>
-          )}
         </div>
 
-        <div className="mt-12">
-          <h3 className="font-[family-name:var(--font-display)] text-3xl font-bold text-white md:text-4xl">
-            Equipe
-          </h3>
-          <p className="mt-3 max-w-2xl text-lg text-zinc-400">
-            Conheça a equipe responsável por manter a cidade viva.
-          </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {teamGroups.map((group) => (
-              <article key={group.role} className="glass-card rounded-2xl p-5">
-                <h4 className="font-[family-name:var(--font-display)] text-lg font-semibold text-white">
-                  {group.role}
-                </h4>
-                <ul className="mt-3 space-y-2 text-sm text-zinc-300">
-                  {group.members.map((member) => (
-                    <li key={member} className="flex items-start gap-2">
-                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400" />
-                      <span>{member}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
+        <div className="mt-12 space-y-10">
+          {teams.map((team) => (
+            <TeamPanel key={team.branch} team={team} />
+          ))}
         </div>
+
+        {teams.length === 0 && (
+          <p className="mt-10 rounded-lg border border-dashed border-white/10 p-8 text-center text-zinc-500">
+            Nenhuma equipe encontrada. Use o formato{" "}
+            <code className="text-zinc-400">=== ROLEPLAY ===</code> e{" "}
+            <code className="text-zinc-400">[Nome do cargo]</code> em equipe.txt.
+          </p>
+        )}
       </div>
     </section>
   );

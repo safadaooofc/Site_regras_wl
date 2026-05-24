@@ -1,3 +1,0 @@
-# SPA: so rotas client-side (evita loop com /* -> /index.html no Cloudflare Pages)
-/regras    /index.html   200
-/regras/   /index.html   200

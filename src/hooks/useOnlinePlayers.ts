@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import type { CommunityBranch } from "../config/community";
 import { getPresenceApiUrl } from "../config/community";
 
-function parseDemo(): number | null {
-  const raw = import.meta.env.VITE_DEMO_ONLINE_PLAYERS;
+function parseDemo(branch: CommunityBranch): number | null {
+  const raw =
+    branch === "eb"
+      ? import.meta.env.VITE_EB_DEMO_ONLINE_PLAYERS
+      : import.meta.env.VITE_DEMO_ONLINE_PLAYERS;
   if (raw === undefined || raw === "") return null;
-  const n = Number.parseInt(raw, 10);
+  const n = Number.parseInt(String(raw), 10);
   return Number.isFinite(n) ? n : null;
 }
 
@@ -18,18 +22,23 @@ function parseCount(data: unknown): number | null {
 }
 
 /**
- * Busca contagem numérica de uma API configurável.
- * Por padrão usa o `widget.json` do Discord (`presence_count`).
- * Aceita também `{ count: n }` ou corpo numérico.
+ * Contagem via widget Discord (`presence_count`) ou API customizada.
  */
-export function useOnlinePlayers() {
+export function useOnlinePlayers(branch: CommunityBranch = "rp") {
   const [count, setCount] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const api = getPresenceApiUrl();
-    const demo = parseDemo();
+    const api = getPresenceApiUrl(branch);
+    const demo = parseDemo(branch);
+
+    if (!api) {
+      setLoading(false);
+      setCount(demo);
+      setError(true);
+      return;
+    }
 
     let cancelled = false;
     setLoading(true);
@@ -70,7 +79,7 @@ export function useOnlinePlayers() {
       cancelled = true;
       window.clearInterval(id);
     };
-  }, []);
+  }, [branch]);
 
   return { count, loading, error };
 }

@@ -4,13 +4,16 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "predev": "node scripts/generate-public-images-manifest.mjs",
-    "prebuild": "node scripts/generate-public-images-manifest.mjs",
+    "predev": "node scripts/sync-content.mjs && node scripts/generate-public-images-manifest.mjs",
+    "prebuild": "node scripts/sync-content.mjs && node scripts/generate-public-images-manifest.mjs",
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "start": "node server/index.js",
+    "preview": "vite preview",
+    "preview:prod": "npm run build && npm run start"
   },
   "dependencies": {
+    "express": "^4.21.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.14.2"

@@ -1,61 +1,53 @@
 import { Link } from "react-router-dom";
-
-const highlights = [
-  {
-    title: "Conduta e respeito",
-    desc: "Assédio, discriminação e ofensas OOC fora do contexto de cena não são tolerados.",
-  },
-  {
-    title: "Fair play",
-    desc: "Metagaming, powergaming e vantagens obtidas fora do jogo prejudicam todos — são punidos.",
-  },
-  {
-    title: "Valorize a vida",
-    desc: "Confrontos exigem motivação IC e tensão plausível — não é Deathmatch livre.",
-  },
-  {
-    title: "Veículos e combate",
-    desc: "VDM/RDM e abuso de mecânicas quebram a narrativa; denuncie com provas no Discord.",
-  },
-];
+import { COMPANY_NAME, RP_FILIAL_NAME, EB_FILIAL_NAME } from "../config/community";
 
 export function SectionRules() {
   return (
-    <section id="regras" className="scroll-mt-24 border-y border-white/5 bg-[#0c0c14]/80 py-20 md:py-28">
+    <section id="regras" className="scroll-mt-24 border-y border-white/8 bg-[#161d26]/50 py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-2xl">
-            <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-white md:text-4xl">
-              Regras em destaque
-            </h2>
-            <p className="mt-4 text-lg text-zinc-400">
-              Resumo para orientação rápida. O regulamento completo está na página dedicada,
-              com glossário e capítulos detalhados.
-            </p>
-          </div>
-          <Link
-            to="/regras"
-            className="inline-flex shrink-0 items-center justify-center rounded-full border border-violet-500/40 bg-violet-500/10 px-6 py-3 text-sm font-semibold text-violet-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-200"
-          >
-            Abrir regulamento completo
-          </Link>
+        <div className="max-w-2xl">
+          <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-white md:text-4xl">
+            Regulamentos
+          </h2>
+          <p className="mt-4 text-lg text-zinc-400">
+            A {COMPANY_NAME} publica as regras de cada filial em páginas separadas, com categorias,
+            sumário e texto completo.
+          </p>
         </div>
-        <ol className="mt-12 grid gap-4 md:grid-cols-2">
-          {highlights.map((r, i) => (
-            <li
-              key={r.title}
-              className="glass-card flex gap-4 rounded-2xl p-5 md:p-6"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600/40 to-cyan-500/30 font-[family-name:var(--font-display)] text-sm font-bold text-white">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <h3 className="font-semibold text-white">{r.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-zinc-400">{r.desc}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+
+        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+          <article className="glass-card flex flex-col rounded-lg p-6 md:p-8">
+            <p className="text-xs font-semibold uppercase tracking-wider text-blue-400">
+              Filial RP
+            </p>
+            <h3 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold text-white">
+              {RP_FILIAL_NAME}
+            </h3>
+            <p className="mt-3 flex-1 text-sm leading-relaxed text-zinc-400">
+              Termos de RP, facções, corporação, Discord da cidade e código penal — organizados por
+              categoria. Vigente na reinauguração do mapa.
+            </p>
+            <Link to="/regras/rp" className="btn-primary mt-6 w-fit">
+              Abrir regras RP
+            </Link>
+          </article>
+
+          <article className="glass-card flex flex-col rounded-lg p-6 md:p-8">
+            <p className="text-xs font-semibold uppercase tracking-wider text-amber-600/90">
+              Filial EB
+            </p>
+            <h3 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold text-white">
+              {EB_FILIAL_NAME}
+            </h3>
+            <p className="mt-3 flex-1 text-sm leading-relaxed text-zinc-400">
+              Manual de recrutamento para instrutores e regulamento oficial do exército — conduta,
+              hierarquia, chat e operações.
+            </p>
+            <Link to="/regras/eb" className="btn-eb mt-6 w-fit">
+              Abrir regras EB
+            </Link>
+          </article>
+        </div>
       </div>
     </section>
   );

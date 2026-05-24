@@ -1,14 +1,17 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { MainLayout } from "./components/MainLayout";
+import { EbRulesPage } from "./pages/EbRulesPage";
 import { Home } from "./pages/Home";
-import { RulesPage } from "./pages/RulesPage";
+import { RpRulesPage } from "./pages/RpRulesPage";
 
 export default function App() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/regras" element={<RulesPage />} />
+        <Route path="/regras" element={<Navigate to="/regras/rp" replace />} />
+        <Route path="/regras/rp" element={<RpRulesPage />} />
+        <Route path="/regras/eb" element={<EbRulesPage />} />
       </Route>
     </Routes>
   );
