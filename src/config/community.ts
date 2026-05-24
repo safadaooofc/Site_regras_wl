@@ -55,3 +55,31 @@ export function getPresenceApiUrl(branch: CommunityBranch = "rp"): string {
   }
   return `/api/discord/guilds/${guildId}/widget.json`;
 }
+
+/**
+ * Link para entrar no mapa/jogo no Roblox.
+ * Aceita URL completa ou só o placeId (números).
+ * Deixe vazio no .env para marcar como indisponível (ex.: RP em reinauguração).
+ */
+export function getRobloxGameUrl(branch: CommunityBranch): string | null {
+  const raw =
+    branch === "eb"
+      ? import.meta.env.VITE_EB_ROBLOX_URL
+      : import.meta.env.VITE_RP_ROBLOX_URL;
+
+  if (raw === undefined || String(raw).trim() === "") return null;
+
+  const v = String(raw).trim();
+
+  if (/^\d+$/.test(v)) {
+    return `https://www.roblox.com/games/start?placeId=${v}`;
+  }
+
+  if (/^https?:\/\//i.test(v)) return v;
+
+  return null;
+}
+
+export function isRobloxMapAvailable(branch: CommunityBranch): boolean {
+  return getRobloxGameUrl(branch) !== null;
+}

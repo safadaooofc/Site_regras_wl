@@ -6,6 +6,7 @@ import {
   RP_FILIAL_NAME,
   getDiscordInvite,
 } from "../config/community";
+import { RobloxJoinButton } from "./RobloxJoinButton";
 
 export function Hero() {
   return (
@@ -40,16 +41,17 @@ export function Hero() {
               Reinauguração do <strong className="font-medium text-zinc-300">mapa e do roleplay</strong>{" "}
               após a perda do mapa anterior. Nova cidade, whitelist e temporada no Discord da filial.
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <RobloxJoinButton branch="rp" fullWidth className="sm:w-auto" />
               <a
                 href={getDiscordInvite("rp")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary"
+                className="btn-primary sm:w-auto"
               >
                 Discord da filial RP
               </a>
-              <Link to="/regras/rp" className="btn-secondary">
+              <Link to="/regras/rp" className="btn-secondary sm:w-auto text-center">
                 Regras RP
               </Link>
             </div>
@@ -66,16 +68,17 @@ export function Hero() {
               Organização militar com recrutamento, treinos e regulamento próprios. Discord e regras
               separados da filial de roleplay.
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <RobloxJoinButton branch="eb" fullWidth className="sm:w-auto" />
               <a
                 href={getDiscordInvite("eb")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-eb"
+                className="btn-eb sm:w-auto"
               >
                 Discord do EB
               </a>
-              <Link to="/regras/eb" className="btn-secondary">
+              <Link to="/regras/eb" className="btn-secondary sm:w-auto text-center">
                 Regras EB
               </Link>
             </div>

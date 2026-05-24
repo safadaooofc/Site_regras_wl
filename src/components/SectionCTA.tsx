@@ -5,6 +5,7 @@ import {
   RP_FILIAL_NAME,
   getDiscordInvite,
 } from "../config/community";
+import { RobloxJoinButton } from "./RobloxJoinButton";
 
 export function SectionCTA() {
   return (
@@ -19,14 +20,8 @@ export function SectionCTA() {
             {EB_FILIAL_NAME} com recrutamento ativo.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href={getDiscordInvite("rp")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary"
-            >
-              Discord RP
-            </a>
+            <RobloxJoinButton branch="eb" />
+            <RobloxJoinButton branch="rp" />
             <a
               href={getDiscordInvite("eb")}
               target="_blank"
@@ -34,6 +29,14 @@ export function SectionCTA() {
               className="btn-eb"
             >
               Discord EB
+            </a>
+            <a
+              href={getDiscordInvite("rp")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary"
+            >
+              Discord RP
             </a>
             <Link to="/regras/rp" className="btn-secondary">
               Regras
