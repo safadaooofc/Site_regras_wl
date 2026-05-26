@@ -104,9 +104,9 @@ function StatusBadge({
   }
   if (status === "active") {
     return (
-      <span className="inline-flex items-center gap-2 text-sm text-amber-600/90">
-        <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-        Ativo — configure o link Roblox no .env
+      <span className="inline-flex items-center gap-2 text-sm text-emerald-500/90">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+        Ativo
       </span>
     );
   }

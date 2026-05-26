@@ -23,6 +23,13 @@ const RP_DEFAULT_GUILD_ID = "1489492393819504692";
 const EB_DEFAULT_INVITE = "https://discord.gg/3A4szCrrpw";
 const EB_DEFAULT_GUILD_ID = "1426225171689111594";
 
+/** Mapa do Exército Brasileiro no Roblox (fixo no código — funciona na Discloud sem .env). */
+export const EB_ROBLOX_GAME_URL =
+  "https://www.roblox.com/pt/games/73574257539470/Ex-rcito-Brasileiro-Reuel-EB";
+
+/** RP: null até liberar o mapa na reinauguração. */
+export const RP_ROBLOX_GAME_URL: string | null = null;
+
 export function getDiscordInvite(branch: CommunityBranch = "rp"): string {
   if (branch === "eb") {
     const v = import.meta.env.VITE_EB_DISCORD_INVITE;
@@ -56,28 +63,10 @@ export function getPresenceApiUrl(branch: CommunityBranch = "rp"): string {
   return `/api/discord/guilds/${guildId}/widget.json`;
 }
 
-/**
- * Link para entrar no mapa/jogo no Roblox.
- * Aceita URL completa ou só o placeId (números).
- * Deixe vazio no .env para marcar como indisponível (ex.: RP em reinauguração).
- */
+/** Link fixo para entrar no mapa no Roblox (não usa .env). */
 export function getRobloxGameUrl(branch: CommunityBranch): string | null {
-  const raw =
-    branch === "eb"
-      ? import.meta.env.VITE_EB_ROBLOX_URL
-      : import.meta.env.VITE_RP_ROBLOX_URL;
-
-  if (raw === undefined || String(raw).trim() === "") return null;
-
-  const v = String(raw).trim();
-
-  if (/^\d+$/.test(v)) {
-    return `https://www.roblox.com/games/start?placeId=${v}`;
-  }
-
-  if (/^https?:\/\//i.test(v)) return v;
-
-  return null;
+  if (branch === "eb") return EB_ROBLOX_GAME_URL;
+  return RP_ROBLOX_GAME_URL;
 }
 
 export function isRobloxMapAvailable(branch: CommunityBranch): boolean {

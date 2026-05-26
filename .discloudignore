@@ -1,10 +1,10 @@
 node_modules
+dist
 .git
-.env
-.env.*
-!.env.example
 *.log
 .vscode
 .cursor
-regrasrp.txt
-regrasEB.txt
+terminals
+
+# Arquivos grandes na raiz — o build copia para src/content via sync-content.mjs
+# Não ignore: regrasEB.txt, equipe.txt, 894189934-*.txt, 742126485-*.txt

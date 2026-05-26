@@ -9,7 +9,7 @@ Reuel
 
 [Co-fundadores]
 Kiover
-Detetive
+Dark
 
 [Syroevusir]
 Samuel
@@ -22,8 +22,9 @@ Galego
 === EB ===
 
 [Liderança]
-darkizin_ | Manager
 Reuel | Dono
+sub dono Dark e KIOVER
+darkizin_ | Manager
 
 [Cel]
 zerado2040

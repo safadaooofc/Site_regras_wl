@@ -35,7 +35,7 @@ export function RobloxJoinButton({ branch, className = "", fullWidth }: Props) {
       title={
         branch === "rp"
           ? "Mapa em reinauguração — link será liberado em breve"
-          : "Configure VITE_EB_ROBLOX_URL no .env"
+          : "Mapa indisponível"
       }
     >
       <RobloxIcon muted />

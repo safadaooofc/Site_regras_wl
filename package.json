@@ -1,28 +1,26 @@
 {
-  "name": "site-regras-wl",
-  "private": true,
+  "name": "reuel-site",
   "version": "1.0.0",
+  "description": "Site Reuel - filiais Capital MT BR e Exercito Brasileiro",
+  "main": "server/index.js",
   "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
-    "predev": "node scripts/sync-content.mjs && node scripts/generate-public-images-manifest.mjs",
-    "prebuild": "node scripts/sync-content.mjs && node scripts/generate-public-images-manifest.mjs",
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "start": "node server/index.js",
-    "preview": "vite preview",
-    "preview:prod": "npm run build && npm run start"
+    "dev": "node scripts/sync-content.mjs && node scripts/generate-public-images-manifest.mjs && vite",
+    "build": "node scripts/sync-content.mjs && node scripts/generate-public-images-manifest.mjs && vite build",
+    "start": "node server/index.js"
   },
   "dependencies": {
-    "express": "^4.21.2",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^7.14.2"
-  },
-  "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "express": "^4.21.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.14.2",
     "tailwindcss": "^4.0.0",
     "typescript": "~5.7.2",
     "vite": "^6.0.0"
