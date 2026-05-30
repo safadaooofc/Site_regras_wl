@@ -86,3 +86,7 @@ export function isRobloxMapAvailable(branch: CommunityBranch): boolean {
 export const DEVELOPER_NAME = "Kiover";
 export const DEVELOPER_PORTFOLIO_URL = "https://kioverdll.discloud.app";
 export const DEVELOPER_GITHUB_URL = "https://github.com/safadaooofc";
+
+/** Canal oficial para reporte privado de falhas de segurança do site (página /legal/reporte). */
+export const SECURITY_REPORT_CONTACT_NAME = DEVELOPER_NAME;
+export const SECURITY_REPORT_CONTACT_URL = DEVELOPER_PORTFOLIO_URL;

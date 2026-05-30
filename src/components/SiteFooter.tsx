@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { legalDocuments } from "../content/legalDocuments";
 import {
   COMPANY_NAME,
   DEVELOPER_GITHUB_URL,
@@ -6,19 +8,54 @@ import {
 } from "../config/community";
 
 const footerLinks = [
-  { href: "/#inicio", label: "Início" },
-  { href: "/#filiais", label: "Filiais" },
-  { href: "/regras/rp", label: "Regras RP" },
-  { href: "/regras/eb", label: "Regras EB" },
-  { href: "/#discord", label: "Discord" },
-  { href: "/#equipe", label: "Equipe" },
+  { href: "/#inicio", label: "Início", external: false },
+  { href: "/#filiais", label: "Filiais", external: false },
+  { href: "/regras/rp", label: "Regras RP", external: false },
+  { href: "/regras/eb", label: "Regras EB", external: false },
+  { href: "/#discord", label: "Discord", external: false },
+  { href: "/#equipe", label: "Equipe", external: false },
 ];
+
+function FooterLink({
+  href,
+  label,
+  external,
+}: {
+  href: string;
+  label: string;
+  external: boolean;
+}) {
+  const className =
+    "text-sm text-zinc-500 transition hover:text-zinc-300";
+
+  if (external) {
+    return (
+      <a href={href} className={className}>
+        {label}
+      </a>
+    );
+  }
+
+  if (href.startsWith("/") && !href.startsWith("/#")) {
+    return (
+      <Link to={href} className={className}>
+        {label}
+      </Link>
+    );
+  }
+
+  return (
+    <a href={href} className={className}>
+      {label}
+    </a>
+  );
+}
 
 export function SiteFooter() {
   return (
     <footer className="border-t border-white/8 bg-[#0a0e14] py-12">
-      <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 md:flex-row md:items-start md:justify-between md:px-6">
-        <div>
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 md:grid-cols-2 md:px-6 lg:grid-cols-4">
+        <div className="lg:col-span-1">
           <p className="font-[family-name:var(--font-display)] text-lg font-semibold text-white">
             {COMPANY_NAME}
           </p>
@@ -26,21 +63,69 @@ export function SiteFooter() {
             Empresa central · filiais Capital MT BR e Exército Brasileiro.
           </p>
         </div>
-        <nav className="flex flex-wrap gap-x-8 gap-y-3" aria-label="Rodapé">
-          {footerLinks.map((l) => (
-            <a
-              key={l.href + l.label}
-              href={l.href}
-              className="text-sm text-zinc-500 transition hover:text-zinc-300"
-            >
-              {l.label}
-            </a>
-          ))}
+
+        <nav className="flex flex-col gap-3" aria-label="Navegação do site">
+          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-600">
+            Site
+          </p>
+          <ul className="flex flex-col gap-2">
+            {footerLinks.map((l) => (
+              <li key={l.href + l.label}>
+                <FooterLink {...l} />
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav className="flex flex-col gap-3" aria-label="Informações legais">
+          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-600">
+            Legal
+          </p>
+          <ul className="flex flex-col gap-2">
+            <li>
+              <Link
+                to="/legal"
+                className="text-sm text-zinc-500 transition hover:text-zinc-300"
+              >
+                Visão geral
+              </Link>
+            </li>
+            {legalDocuments.map((doc) => (
+              <li key={doc.slug}>
+                <Link
+                  to={`/legal/${doc.slug}`}
+                  className="text-sm text-zinc-500 transition hover:text-zinc-300"
+                >
+                  {doc.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </nav>
       </div>
+
       <div className="mx-auto mt-10 max-w-6xl border-t border-white/5 px-4 pt-8 md:px-6">
         <p className="text-center text-xs text-zinc-600">
-          © {new Date().getFullYear()} {COMPANY_NAME}
+          © {new Date().getFullYear()} {COMPANY_NAME}. Ao usar o site você concorda com os{" "}
+          <Link to="/legal/termos" className="text-zinc-500 underline hover:text-zinc-400">
+            Termos de uso
+          </Link>{" "}
+          e a{" "}
+          <Link to="/legal/privacidade" className="text-zinc-500 underline hover:text-zinc-400">
+            Política de privacidade
+          </Link>
+          .
+        </p>
+        <p className="mt-3 text-center text-xs text-zinc-600">
+          <Link to="/legal/cookies" className="text-zinc-500 underline hover:text-zinc-400">
+            Cookies
+          </Link>
+          <span className="mx-1.5 text-zinc-700" aria-hidden>
+            ·
+          </span>
+          <Link to="/legal/historico" className="text-zinc-500 underline hover:text-zinc-400">
+            Histórico legal
+          </Link>
         </p>
         <p className="mt-3 text-center text-xs text-zinc-600">
           Site desenvolvido por{" "}

@@ -295,6 +295,17 @@ Documentação detalhada:
 | `/regras/rp` | Regulamento RP |
 | `/regras/eb` | Documentação EB |
 | `/admin` | Painel administrativo (protegido) |
+| `/legal` | Informações legais (índice) |
+| `/legal/termos` | Termos de uso |
+| `/legal/privacidade` | Política de privacidade (LGPD) |
+| `/legal/cookies` | Política de cookies |
+| `/legal/seguranca` | Termos de segurança |
+| `/legal/reporte` | Reporte de vulnerabilidades |
+| `/legal/compras` | Compras, entrega (1 h–3 dias) e reembolso |
+| `/legal/streaming` | Streaming e gravação (consentimento obrigatório) |
+| `/legal/comunicacoes` | Comunicações oficiais e alteração de termos |
+| `/legal/responsaveis` | Para pais e responsáveis (13+/16+) |
+| `/legal/historico` | Histórico de versões dos documentos |
 
 ---
 
@@ -326,7 +337,8 @@ Esses arquivos estão no `.gitignore`. Em redeploy na Discloud podem ser recriad
 
 ## Segurança
 
-- Política completa: **[SECURITY.md](SECURITY.md)** (como reportar vulnerabilidades, segredos, rotação de tokens).
+- Reporte de falhas (público): **[/legal/reporte](https://reueleberp.discloud.app/legal/reporte)** no site — o GitHub não é canal oficial.
+- Manutenção do código: **[SECURITY.md](SECURITY.md)** (segredos, rotação de tokens, quem tem acesso ao repo).
 - Não commite `.env` nem `data/*.json` com dados reais.
 - Arquivos `*.example` devem ter **placeholders** — nunca tokens reais.
 - `DISCORD_CLIENT_SECRET` e `DISCORD_BOT_TOKEN` só no servidor / painel Discloud.

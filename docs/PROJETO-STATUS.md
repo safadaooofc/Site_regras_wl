@@ -25,6 +25,7 @@ O site está **no ar** e operacional. Não há roadmap ativo de novas funcionali
 - **Anúncios** na home com posição, cor/tema e ordem configuráveis
 - **Servidor Suporte** central (convite e guild ID em `community.ts` / `.env`)
 - **Rodapé** com créditos ao desenvolvedor **Kiover** (portfólio + GitHub)
+- **Páginas legais** (`/legal` v1.1): termos, privacidade, cookies, segurança, reporte, compras (reembolso só se não entregar no prazo), streaming (sem consentimento = proibido), comunicações, responsáveis (13+/16+ RP), histórico de versões
 
 ### Back-end e deploy
 

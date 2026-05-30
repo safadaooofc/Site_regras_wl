@@ -2,7 +2,13 @@
 
 Site institucional da **Reuel** ([produção](https://reueleberp.discloud.app)): React + Express, OAuth Discord, painel admin e integrações via bot (HTTP interactions).
 
-Este documento descreve o que consideramos sensível, como reportar problemas e o que fazer se um segredo vazar.
+Este documento é para **quem tem acesso ao repositório** (deploy, manutenção). O repositório **não é público no GitHub**.
+
+**Reporte público de falhas (pesquisadores / comunidade):** use apenas a página do site — **[Reporte de vulnerabilidades](https://reueleberp.discloud.app/legal/reporte)** (contato privado via portfólio do desenvolvedor ou Discord Suporte). Não abra issues públicas.
+
+Conduta geral de uso: [Termos de segurança](https://reueleberp.discloud.app/legal/seguranca).
+
+Descreve o que consideramos sensível, como tratar reportes e o que fazer se um segredo vazar.
 
 ---
 
@@ -38,11 +44,15 @@ Exemplos **dentro do escopo** deste repositório:
 
 ## Como reportar uma vulnerabilidade
 
-**Não** abra issue pública com detalhes do exploit, payloads ou tokens.
+**Não** publique exploit, payloads ou tokens em redes sociais, Discord público ou issues.
 
-1. **Preferencial:** [GitHub Security Advisories](https://github.com/safadaooofc/Site_regras_wl/security/advisories) → *Report a vulnerability* (repositório privado ou advisory privado, se disponível).
-2. **Alternativa:** mensagem privada ao mantenedor do site (**Kiover**) — [portfólio](https://kioverdll.discloud.app) ou contato via GitHub ([safadaooofc](https://github.com/safadaooofc)).
-3. Para incidentes **já em produção** que afetem a comunidade Reuel, avise também a liderança no [servidor de suporte](https://discord.gg/bX5Ke9Qq6w) (sem colar segredos no chat).
+| Canal | Uso |
+|-------|-----|
+| **Site (público)** | [reueleberp.discloud.app/legal/reporte](https://reueleberp.discloud.app/legal/reporte) — política e botões de contato |
+| **Desenvolvedor** | [kioverdll.discloud.app](https://kioverdll.discloud.app) — mensagem privada (preferencial para falhas técnicas) |
+| **Comunidade** | [Servidor de suporte](https://discord.gg/bX5Ke9Qq6w) — ticket/DM a moderação; peça encaminhamento técnico **sem** detalhes em canal geral |
+
+O GitHub **não** é canal oficial de reporte (repositório não anunciado publicamente). Quem mantém o código com acesso privado ao repo pode registrar internamente após receber o reporte pelo site.
 
 Inclua, quando possível:
 
