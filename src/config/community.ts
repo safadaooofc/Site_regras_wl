@@ -23,12 +23,21 @@ const RP_DEFAULT_GUILD_ID = "1489492393819504692";
 const EB_DEFAULT_INVITE = "https://discord.gg/3A4szCrrpw";
 const EB_DEFAULT_GUILD_ID = "1426225171689111594";
 
+/** Servidor central de suporte (Secretaria Geral / rede Reuel). */
+export const SUPPORT_DISCORD_INVITE_DEFAULT = "https://discord.gg/bX5Ke9Qq6w";
+export const SUPPORT_FILIAL_NAME = "Servidor Suporte";
+
 /** Mapa do Exército Brasileiro no Roblox (fixo no código — funciona na Discloud sem .env). */
 export const EB_ROBLOX_GAME_URL =
   "https://www.roblox.com/pt/games/73574257539470/Ex-rcito-Brasileiro-Reuel-EB";
 
 /** RP: null até liberar o mapa na reinauguração. */
 export const RP_ROBLOX_GAME_URL: string | null = null;
+
+export function getSupportDiscordInvite(): string {
+  const v = import.meta.env.VITE_SUPPORT_DISCORD_INVITE;
+  return v && v.trim() !== "" ? v.trim() : SUPPORT_DISCORD_INVITE_DEFAULT;
+}
 
 export function getDiscordInvite(branch: CommunityBranch = "rp"): string {
   if (branch === "eb") {

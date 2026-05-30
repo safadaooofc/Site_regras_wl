@@ -2,13 +2,12 @@
 
 ## Quem tem acesso
 
-Usuário logado com Discord que tenha permissão **Administrador** em **pelo menos um** servidor da rede Reuel (RP ou EB), verificado pelo bot (`DISCORD_BOT_TOKEN`).
+1. **Registrado via Discord** — `/add-admin` no [servidor de suporte](https://discord.gg/bX5Ke9Qq6w) (categoria `super`, `support`, `rp` ou `eb`).  
+2. **Administrador** no servidor de suporte → acesso `support`.  
+3. **Administrador** em RP/EB → acesso `super` até ser ajustado com `/add-admin`.  
+4. **Override** no `.env`: `DISCORD_ADMIN_USER_IDS=id1,id2`
 
-Override opcional no `.env`:
-
-```env
-DISCORD_ADMIN_USER_IDS=seu_id_discord,outro_id
-```
+Ver também: **[DISCORD-SUPORTE-LOGS.md](DISCORD-SUPORTE-LOGS.md)** (logs + comandos).
 
 ## URL
 

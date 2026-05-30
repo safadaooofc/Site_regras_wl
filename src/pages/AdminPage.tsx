@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { getSupportDiscordInvite } from "../config/community";
 import { useAuth } from "../contexts/AuthContext";
 import { invalidateSiteContentCache } from "../hooks/useSiteContent";
+import { ADMIN_ROLE_LABELS, type AdminRole } from "../types/admin";
 import type {
   Announcement,
   CmsDocument,
@@ -10,7 +12,7 @@ import type {
   CmsTeam,
 } from "../types/cms";
 
-type Tab = "announcements" | "rules-rp" | "rules-eb" | "team";
+type Tab = "announcements" | "rules-rp" | "rules-eb" | "team" | "admins";
 
 function newId(prefix: string) {
   return `${prefix}-${Date.now().toString(36)}`;
@@ -287,10 +289,20 @@ function TeamEditor({
   );
 }
 
+type RegistryAdmin = {
+  id: string;
+  username: string | null;
+  globalName: string | null;
+  role: AdminRole;
+  roleLabel: string;
+  addedAt: string;
+};
+
 export function AdminPage() {
-  const { user, isAdmin, loading } = useAuth();
+  const { user, isAdmin, adminRole, capabilities, loading } = useAuth();
   const [tab, setTab] = useState<Tab>("announcements");
   const [cms, setCms] = useState<CmsDocument | null>(null);
+  const [registryAdmins, setRegistryAdmins] = useState<RegistryAdmin[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -307,6 +319,14 @@ export function AdminPage() {
   useEffect(() => {
     if (isAdmin) load();
   }, [isAdmin, load]);
+
+  useEffect(() => {
+    if (!capabilities.manageAdmins) return;
+    fetch("/api/admin/admins", { credentials: "same-origin" })
+      .then((r) => (r.ok ? r.json() : { users: [] }))
+      .then((d) => setRegistryAdmins(d.users ?? []))
+      .catch(() => setRegistryAdmins([]));
+  }, [capabilities.manageAdmins, cms]);
 
   if (loading) {
     return (
@@ -325,9 +345,17 @@ export function AdminPage() {
       <main className="mx-auto max-w-lg px-4 pt-32 text-center">
         <h1 className="text-xl font-semibold text-white">Acesso negado</h1>
         <p className="mt-3 text-zinc-400">
-          Apenas administradores dos servidores Discord da Reuel (onde o bot está) podem usar este
-          painel. Entre com uma conta que tenha permissão de <strong>Administrador</strong> no
-          Discord.
+          Peça a um responsável no{" "}
+          <a
+            href={getSupportDiscordInvite()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 hover:underline"
+          >
+            servidor de suporte
+          </a>{" "}
+          para usar <code className="text-zinc-500">/add-admin</code> no Discord, ou entre com
+          conta <strong>Administrador</strong> no servidor central.
         </p>
         <Link to="/" className="btn-primary mt-6 inline-flex">
           Voltar ao site
@@ -369,11 +397,19 @@ export function AdminPage() {
   };
 
   const tabs: { id: Tab; label: string }[] = [
-    { id: "announcements", label: "Anúncios" },
-    { id: "rules-rp", label: "Regras RP" },
-    { id: "rules-eb", label: "Regras EB" },
-    { id: "team", label: "Equipe" },
-  ];
+    capabilities.announcements && { id: "announcements", label: "Anúncios" },
+    capabilities.rulesRp && { id: "rules-rp", label: "Regras RP" },
+    capabilities.rulesEb && { id: "rules-eb", label: "Regras EB" },
+    capabilities.team && { id: "team", label: "Equipe" },
+    capabilities.manageAdmins && { id: "admins", label: "Admins do site" },
+  ].filter(Boolean) as { id: Tab; label: string }[];
+
+  const teamsForEditor =
+    cms && adminRole === "rp"
+      ? cms.team.teams.filter((t) => t.branch === "rp")
+      : cms && adminRole === "eb"
+        ? cms.team.teams.filter((t) => t.branch === "eb")
+        : cms?.team.teams ?? [];
 
   return (
     <main className="pb-24 pt-28 md:pt-32">
@@ -384,16 +420,23 @@ export function AdminPage() {
             <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold text-white">
               Painel Reuel
             </h1>
+            {adminRole && (
+              <p className="mt-1 text-sm text-amber-200/90">
+                Categoria: {ADMIN_ROLE_LABELS[adminRole]}
+              </p>
+            )}
           </div>
           <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              className="btn-secondary text-sm"
-              disabled={saving}
-              onClick={importFromFiles}
-            >
-              Importar .txt
-            </button>
+            {capabilities.importCms && (
+              <button
+                type="button"
+                className="btn-secondary text-sm"
+                disabled={saving}
+                onClick={importFromFiles}
+              >
+                Importar .txt
+              </button>
+            )}
             <button type="button" className="btn-primary text-sm" disabled={saving} onClick={persist}>
               {saving ? "Salvando…" : "Salvar e publicar"}
             </button>
@@ -489,9 +532,51 @@ export function AdminPage() {
         {cms && tab === "team" && (
           <div className="mt-8">
             <TeamEditor
-              teams={cms.team.teams}
-              onChange={(teams) => setCms({ ...cms, team: { teams } })}
+              teams={teamsForEditor}
+              onChange={(edited) => {
+                if (adminRole === "rp" || adminRole === "eb") {
+                  const other = cms.team.teams.filter((t) => t.branch !== adminRole);
+                  setCms({ ...cms, team: { teams: [...other, ...edited] } });
+                } else {
+                  setCms({ ...cms, team: { teams: edited } });
+                }
+              }}
             />
+          </div>
+        )}
+
+        {tab === "admins" && capabilities.manageAdmins && (
+          <div className="mt-8 space-y-4">
+            <p className="text-sm text-zinc-400">
+              Admins registrados via <code className="text-zinc-500">/add-admin</code> no{" "}
+              <a
+                href={getSupportDiscordInvite()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:underline"
+              >
+                servidor de suporte
+              </a>
+              . Comandos: <code className="text-zinc-500">/remove-admin</code>,{" "}
+              <code className="text-zinc-500">/list-admins</code>,{" "}
+              <code className="text-zinc-500">/setup-logs</code>.
+            </p>
+            <ul className="glass-card divide-y divide-white/10 rounded-lg border border-white/10">
+              {registryAdmins.length === 0 && (
+                <li className="p-4 text-sm text-zinc-500">Nenhum admin na lista ainda.</li>
+              )}
+              {registryAdmins.map((a) => (
+                <li key={a.id} className="flex flex-wrap items-center gap-3 p-4 text-sm">
+                  <span className="font-medium text-white">
+                    {a.globalName || a.username || a.id}
+                  </span>
+                  <span className="rounded bg-white/5 px-2 py-0.5 text-xs text-amber-200">
+                    {a.roleLabel}
+                  </span>
+                  <span className="text-zinc-600">{a.id}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </div>

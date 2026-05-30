@@ -143,3 +143,5 @@ eni_lime.txt
 
 # CMS editado pelo painel admin (persistência local / Discloud)
 data/cms.json
+data/admins.json
+data/discord-channels.json

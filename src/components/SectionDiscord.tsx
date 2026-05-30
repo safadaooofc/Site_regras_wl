@@ -2,8 +2,10 @@ import {
   COMPANY_NAME,
   EB_FILIAL_NAME,
   RP_FILIAL_NAME,
+  SUPPORT_FILIAL_NAME,
   getDiscordInvite,
   getDiscordServerId,
+  getSupportDiscordInvite,
 } from "../config/community";
 import { useOnlinePlayers } from "../hooks/useOnlinePlayers";
 
@@ -80,7 +82,29 @@ export function SectionDiscord() {
             moderação próprios.
           </p>
         </div>
-        <div className="mt-12 grid gap-8 lg:grid-cols-2">
+        <article className="glass-card mb-8 rounded-xl border border-violet-500/20 bg-violet-950/10 p-6 md:p-8">
+          <p className="text-xs font-semibold uppercase tracking-wider text-violet-300/90">
+            Central
+          </p>
+          <h3 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-bold text-white">
+            {SUPPORT_FILIAL_NAME}
+          </h3>
+          <p className="mt-3 max-w-2xl text-sm text-zinc-400">
+            Suporte unificado da {COMPANY_NAME} — site, filial RP, filial EB e moderação central.
+            Logs do site e comandos de admin (<code className="text-zinc-500">/add-admin</code>) ficam
+            aqui.
+          </p>
+          <a
+            href={getSupportDiscordInvite()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary mt-5 inline-flex"
+          >
+            Entrar no servidor de suporte
+          </a>
+        </article>
+
+        <div className="grid gap-8 lg:grid-cols-2">
           <DiscordCard
             filial={RP_FILIAL_NAME}
             description="Anúncios da reinauguração do mapa, whitelist, suporte e regras da cidade."

@@ -4,7 +4,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadEnvFile } from "../scripts/load-env.mjs";
 import { addUserToReuelGuilds, isAutoJoinEnabled } from "./discord-auto-join.mjs";
+import { registerSupportGuildCommands, handleDiscordInteraction } from "./discord-bot.mjs";
+import { ensureLogChannels } from "./discord-channels.mjs";
+import { logAuth, logError, logGeneral } from "./discord-logs.mjs";
+import { verifyDiscordRequest } from "./discord-verify.mjs";
 import { createApiRouter, refreshSessionAdmin } from "./routes/api.mjs";
+import { ADMIN_ROLE_LABELS } from "./admin-registry.mjs";
+import { getAdminCapabilities } from "./admin-permissions.mjs";
 
 loadEnvFile();
 
@@ -27,6 +33,28 @@ function redirectToApp(res, targetPath = "/") {
 const app = express();
 
 app.set("trust proxy", 1);
+
+/** Discord slash commands — corpo bruto para assinatura Ed25519 */
+app.post(
+  "/discord/interactions",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
+    const rawBody = req.body?.toString("utf8") ?? "";
+    if (!verifyDiscordRequest(req, rawBody)) {
+      return res.status(401).send("invalid request signature");
+    }
+    try {
+      const body = JSON.parse(rawBody);
+      const { status, data } = await handleDiscordInteraction(body);
+      res.status(status).json(data);
+    } catch (err) {
+      console.error("[discord/interactions]", err);
+      await logError("Interaction handler", String(err?.message ?? err));
+      res.status(500).json({ error: "internal_error" });
+    }
+  }
+);
+
 app.use(express.json({ limit: "2mb" }));
 
 app.use(
@@ -64,6 +92,7 @@ app.get("/auth/login", (req, res) => {
 app.get("/auth/callback", async (req, res) => {
   const { code } = req.query;
   if (!code || !DISCORD_CLIENT_ID || !DISCORD_CLIENT_SECRET) {
+    await logAuth("Login falhou", "Callback sem código ou OAuth não configurado", []);
     return redirectToApp(res, "/?auth_error=1");
   }
 
@@ -80,14 +109,20 @@ app.get("/auth/callback", async (req, res) => {
       }),
     });
 
-    if (!tokenRes.ok) return redirectToApp(res, "/?auth_error=1");
+    if (!tokenRes.ok) {
+      await logAuth("Login falhou", "Troca de código OAuth recusada pelo Discord", []);
+      return redirectToApp(res, "/?auth_error=1");
+    }
     const { access_token } = await tokenRes.json();
 
     const userRes = await fetch("https://discord.com/api/users/@me", {
       headers: { Authorization: `Bearer ${access_token}` },
     });
 
-    if (!userRes.ok) return redirectToApp(res, "/?auth_error=1");
+    if (!userRes.ok) {
+      await logAuth("Login falhou", "Não foi possível obter perfil @me", []);
+      return redirectToApp(res, "/?auth_error=1");
+    }
     const profile = await userRes.json();
 
     req.session.user = {
@@ -101,6 +136,24 @@ app.get("/auth/callback", async (req, res) => {
     await refreshSessionAdmin(req);
 
     const joinResult = await addUserToReuelGuilds(profile.id, access_token);
+
+    await logAuth("Login no site", `<@${profile.id}> entrou`, [
+      { name: "Usuário", value: profile.global_name || profile.username, inline: true },
+      {
+        name: "Admin painel",
+        value: req.session.isAdmin
+          ? ADMIN_ROLE_LABELS[req.session.adminRole] ?? req.session.adminRole
+          : "Não",
+        inline: true,
+      },
+      {
+        name: "Auto-join",
+        value: joinResult.disabled
+          ? "Desativado"
+          : `+${joinResult.joined.length} novo(s), ${joinResult.alreadyMember.length} já membro`,
+        inline: false,
+      },
+    ]);
     req.session.discordJoin = {
       joined: joinResult.joined.length,
       alreadyMember: joinResult.alreadyMember.length,
@@ -116,7 +169,8 @@ app.get("/auth/callback", async (req, res) => {
     }
 
     redirectToApp(res, `/${joinQuery}`);
-  } catch {
+  } catch (err) {
+    await logError("Erro no callback OAuth", String(err?.message ?? err));
     redirectToApp(res, "/?auth_error=1");
   }
 });
@@ -128,10 +182,19 @@ app.get("/auth/me", async (req, res) => {
   res.json({
     user: req.session.user || null,
     isAdmin: Boolean(req.session.isAdmin),
+    adminRole: req.session.adminRole ?? null,
+    adminSource: req.session.adminSource ?? null,
+    capabilities: getAdminCapabilities(req.session.adminRole),
   });
 });
 
-app.get("/auth/logout", (req, res) => {
+app.get("/auth/logout", async (req, res) => {
+  const who = req.session?.user;
+  if (who) {
+    await logAuth("Logout", `<@${who.id}> saiu do site`, [
+      { name: "Usuário", value: who.globalName || who.username, inline: true },
+    ]);
+  }
   req.session = null;
   redirectToApp(res, "/");
 });
@@ -163,5 +226,18 @@ app.get("*", (_req, res) => {
 });
 
 app.listen(PORT, HOST, () => {
-  console.log(`[capital-mt] http://${HOST}:${PORT}`);
+  console.log(`[reuel] http://${HOST}:${PORT}`);
+
+  ensureLogChannels()
+    .then((r) => {
+      if (r.ok) console.log("[reuel] Canais de log Discord prontos");
+      else console.warn("[reuel] Logs Discord:", r.reason ?? "skip");
+    })
+    .catch((e) => console.warn("[reuel] ensureLogChannels:", e));
+
+  registerSupportGuildCommands().catch((e) => console.warn("[reuel] register commands:", e));
+
+  logGeneral("Servidor iniciado", `API em ${BASE_URL}`, [
+    { name: "Porta", value: String(PORT), inline: true },
+  ]).catch(() => {});
 });

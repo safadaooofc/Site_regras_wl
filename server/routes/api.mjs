@@ -1,11 +1,15 @@
 import { Router } from "express";
-import { userIsDiscordAdministrator } from "../discord-admin.mjs";
+import { ADMIN_ROLE_LABELS } from "../admin-registry.mjs";
+import { filterCmsByRole, getAdminCapabilities } from "../admin-permissions.mjs";
+import { listSiteAdmins } from "../admin-registry.mjs";
+import { resolveSiteAdmin } from "../discord-admin.mjs";
 import {
   getActiveAnnouncements,
   importCmsFromFiles,
   loadCms,
   saveCms,
 } from "../cms-store.mjs";
+import { logCms } from "../discord-logs.mjs";
 
 function requireUser(req, res, next) {
   if (!req.session?.user?.id) {
@@ -42,38 +46,62 @@ export function createApiRouter() {
     res.json({
       user: req.session.user,
       isAdmin: Boolean(req.session.isAdmin),
+      adminRole: req.session.adminRole ?? null,
+      adminSource: req.session.adminSource ?? null,
+      capabilities: getAdminCapabilities(req.session.adminRole),
     });
+  });
+
+  router.get("/admin/admins", requireAdmin, (req, res) => {
+    const caps = getAdminCapabilities(req.session.adminRole);
+    if (!caps.manageAdmins) {
+      return res.status(403).json({ error: "forbidden" });
+    }
+    const users = listSiteAdmins().map((u) => ({
+      ...u,
+      roleLabel: ADMIN_ROLE_LABELS[u.role] ?? u.role,
+    }));
+    res.json({ users });
   });
 
   router.get("/admin/cms", requireAdmin, (_req, res) => {
     res.json(loadCms());
   });
 
-  router.put("/admin/cms", requireAdmin, (req, res) => {
+  router.put("/admin/cms", requireAdmin, async (req, res) => {
     const current = loadCms();
     const body = req.body ?? {};
+    const role = req.session.adminRole;
 
-    const next = {
-      ...current,
-      announcements: body.announcements ?? current.announcements,
-      rulesRp: body.rulesRp ?? current.rulesRp,
-      rulesEb: body.rulesEb ?? current.rulesEb,
-      team: body.team ?? current.team,
-      updatedBy: req.session.user.id,
-    };
+    const next = filterCmsByRole(current, role, body);
+    next.updatedBy = req.session.user.id;
 
     saveCms(next);
+
+    await logCms("Conteúdo publicado", `Por <@${req.session.user.id}>`, [
+      { name: "Categoria admin", value: ADMIN_ROLE_LABELS[role] ?? role ?? "—", inline: true },
+      { name: "Anúncios", value: String(next.announcements?.length ?? 0), inline: true },
+    ]);
+
     res.json(next);
   });
 
-  router.post("/admin/cms/import", requireAdmin, (req, res) => {
+  router.post("/admin/cms/import", requireAdmin, async (req, res) => {
+    const caps = getAdminCapabilities(req.session.adminRole);
+    if (!caps.importCms) {
+      return res.status(403).json({ error: "forbidden" });
+    }
     const data = importCmsFromFiles(req.session.user.id);
+    await logCms("Importação .txt", `Por <@${req.session.user.id}>`, []);
     res.json(data);
   });
 
   router.post("/admin/refresh-admin", requireUser, async (req, res) => {
-    req.session.isAdmin = await userIsDiscordAdministrator(req.session.user.id);
-    res.json({ isAdmin: Boolean(req.session.isAdmin) });
+    await refreshSessionAdmin(req);
+    res.json({
+      isAdmin: Boolean(req.session.isAdmin),
+      adminRole: req.session.adminRole ?? null,
+    });
   });
 
   return router;
@@ -82,8 +110,13 @@ export function createApiRouter() {
 export async function refreshSessionAdmin(req) {
   if (!req.session?.user?.id) {
     req.session.isAdmin = false;
+    req.session.adminRole = null;
+    req.session.adminSource = null;
     return false;
   }
-  req.session.isAdmin = await userIsDiscordAdministrator(req.session.user.id);
-  return req.session.isAdmin;
+  const resolved = await resolveSiteAdmin(req.session.user.id);
+  req.session.isAdmin = resolved.isAdmin;
+  req.session.adminRole = resolved.role;
+  req.session.adminSource = resolved.source;
+  return resolved.isAdmin;
 }
