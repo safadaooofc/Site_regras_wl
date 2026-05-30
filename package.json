@@ -14,7 +14,9 @@
     "build": "node scripts/sync-content.mjs && node scripts/generate-public-images-manifest.mjs && vite build",
     "start": "node server/index.js",
     "discord:register": "node scripts/register-discord-commands.mjs",
-    "discord:diagnose": "node scripts/discord-diagnose.mjs"
+    "discord:diagnose": "node scripts/discord-diagnose.mjs",
+    "deploy": "npm run build && wrangler deploy",
+    "preview": "npm run build && wrangler dev"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",
@@ -30,5 +32,9 @@
     "tweetnacl": "^1.0.3",
     "typescript": "~5.7.2",
     "vite": "^6.0.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.39.0",
+    "wrangler": "^4.95.0"
   }
 }
