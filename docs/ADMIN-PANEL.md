@@ -1,5 +1,7 @@
 # Painel administrativo
 
+> **Status:** painel em produção em [https://reueleberp.discloud.app/admin](https://reueleberp.discloud.app/admin). Projeto **praticamente encerrado** — uso contínuo para editar conteúdo (anúncios, regras, equipe). Ver [PROJETO-STATUS.md](PROJETO-STATUS.md).
+
 ## Quem tem acesso
 
 1. **Registrado via Discord** — `/add-admin` no [servidor de suporte](https://discord.gg/bX5Ke9Qq6w) (categoria `super`, `support`, `rp` ou `eb`).  

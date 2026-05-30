@@ -9,7 +9,17 @@ Site oficial da **Reuel**, empresa central que reúne duas filiais no Roblox e n
 
 Há ainda o **Servidor Suporte** (central), onde ficam suporte ao site, logs e comandos de administração.
 
-**Produção:** [https://reueleberp.discloud.app](https://reueleberp.discloud.app)
+**Produção (no ar):** [https://reueleberp.discloud.app](https://reueleberp.discloud.app)
+
+### Status do projeto
+
+| | |
+|---|---|
+| **Situação** | Desenvolvimento **praticamente encerrado** — site em produção na Discloud |
+| **Manutenção** | Ajustes pontuais (conteúdo no painel `/admin`, anúncios, regras) sem novas features planejadas |
+| **Deploy** | `ID=reueleberp` · `TYPE=site` · build e start automáticos no upload |
+
+Resumo completo do que foi entregue: **[docs/PROJETO-STATUS.md](docs/PROJETO-STATUS.md)**
 
 ---
 
@@ -23,6 +33,7 @@ Há ainda o **Servidor Suporte** (central), onde ficam suporte ao site, logs e c
 - Link Roblox da filial EB (fixo em código)
 - **Anúncios** configuráveis (posição, cor, ordem) via painel admin
 - Login com **Discord OAuth2** (identify + auto-join nos servidores, se configurado)
+- Rodapé com créditos ao desenvolvedor ([Kiover](https://kioverdll.discloud.app) — portfólio e GitHub)
 
 ### Painel administrativo (`/admin`)
 
@@ -225,6 +236,8 @@ Lista completa para Discloud: **`discloud.env.example`**
 
 ## Deploy na Discloud
 
+O app **já está publicado** (`reueleberp`). Os passos abaixo valem para **primeiro deploy**, redeploy ou troca de variáveis.
+
 1. Configure variáveis no **painel** da Discloud (não envie `.env` no ZIP).
 2. Faça upload do projeto (sem `node_modules`).
 3. O `discloud.config` executa `npm install && npm run build` e depois `npm start`.
@@ -337,12 +350,15 @@ Esses arquivos estão no `.gitignore`. Em redeploy na Discloud podem ser recriad
 
 Projeto privado da comunidade **Reuel**. Conteúdo de regras fornecido pelas filiais (arquivos `.txt` na raiz do repositório).
 
+**Desenvolvimento do site:** [Kiover](https://kioverdll.discloud.app) · [GitHub](https://github.com/safadaooofc)
+
 ---
 
 ## Documentação adicional
 
 Toda documentação técnica está em **`docs/`**:
 
+- [PROJETO-STATUS.md](docs/PROJETO-STATUS.md) — entregas, status “encerrado” e URL em produção
 - [DISCLOUD-DEPLOY.md](docs/DISCLOUD-DEPLOY.md)
 - [CHECKLIST-DISCLOUD.md](docs/CHECKLIST-DISCLOUD.md)
 - [ADMIN-PANEL.md](docs/ADMIN-PANEL.md)

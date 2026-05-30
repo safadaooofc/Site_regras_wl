@@ -1,5 +1,7 @@
 # Servidor de suporte, logs e `/add-admin`
 
+> **Status:** integração **no ar** com o site em produção. Bot via HTTP (pode aparecer offline no Discord — normal). Ver [PROJETO-STATUS.md](PROJETO-STATUS.md).
+
 ## Servidor central
 
 - **Nome no site:** Servidor Suporte  

@@ -1,5 +1,7 @@
 # Entrada automática nos Discords ao logar
 
+> **Status:** funcionalidade **ativa em produção** ([reueleberp.discloud.app](https://reueleberp.discloud.app)). Projeto em fase de **manutenção**. Ver [PROJETO-STATUS.md](PROJETO-STATUS.md).
+
 Quando `DISCORD_BOT_TOKEN` está configurado, após o login OAuth o servidor chama a API do Discord para **adicionar o usuário** aos servidores da rede Reuel (RP + EB).
 
 ## Configuração (uma vez)

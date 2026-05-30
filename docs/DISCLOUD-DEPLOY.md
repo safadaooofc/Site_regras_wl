@@ -1,5 +1,7 @@
 # Deploy na Discloud (site + bot juntos)
 
+> **Status:** projeto **no ar** em [https://reueleberp.discloud.app](https://reueleberp.discloud.app). Desenvolvimento **praticamente encerrado** — este guia serve para redeploy, novas variáveis ou recuperação. Ver [PROJETO-STATUS.md](PROJETO-STATUS.md).
+
 ## Precisa de Docker?
 
 **Não.** Na Discloud com `TYPE=site` você sobe **um único app Node** (`server/index.js`). Esse processo já faz:

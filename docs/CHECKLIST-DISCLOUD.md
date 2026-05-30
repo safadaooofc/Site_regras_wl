@@ -1,5 +1,7 @@
 # Checklist antes de subir na Discloud
 
+> **Status:** o app **já está publicado** em [https://reueleberp.discloud.app](https://reueleberp.discloud.app). Use este checklist em **novo deploy** ou após mudar secrets. Resumo das entregas: [PROJETO-STATUS.md](PROJETO-STATUS.md).
+
 ## Código do projeto
 
 | Item | Status |
@@ -38,6 +40,12 @@ Use `discloud.env.example` como lista. **Obrigatório em produção:**
 - [ ] No Discord suporte: `/setup-logs`
 - [ ] `/add-admin` para quem vai usar o painel
 - [ ] Testar login no site e `/admin`
+
+## Produção atual (entrega concluída)
+
+- [x] Site online: [https://reueleberp.discloud.app](https://reueleberp.discloud.app)
+- [x] Projeto em fase de **manutenção** (sem novas features planejadas)
+- [ ] Backup periódico de `data/cms.json` e `data/admins.json` (recomendado)
 
 ## Avisos
 
