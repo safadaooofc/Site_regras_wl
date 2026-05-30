@@ -1,4 +1,9 @@
-import { COMPANY_NAME } from "../config/community";
+import {
+  COMPANY_NAME,
+  DEVELOPER_GITHUB_URL,
+  DEVELOPER_NAME,
+  DEVELOPER_PORTFOLIO_URL,
+} from "../config/community";
 
 const footerLinks = [
   { href: "/#inicio", label: "Início" },
@@ -36,6 +41,28 @@ export function SiteFooter() {
       <div className="mx-auto mt-10 max-w-6xl border-t border-white/5 px-4 pt-8 md:px-6">
         <p className="text-center text-xs text-zinc-600">
           © {new Date().getFullYear()} {COMPANY_NAME}
+        </p>
+        <p className="mt-3 text-center text-xs text-zinc-600">
+          Site desenvolvido por{" "}
+          <a
+            href={DEVELOPER_PORTFOLIO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-400 underline decoration-zinc-600/60 underline-offset-2 transition hover:text-sky-400 hover:decoration-sky-400/50"
+          >
+            {DEVELOPER_NAME}
+          </a>
+          <span className="mx-1.5 text-zinc-700" aria-hidden>
+            ·
+          </span>
+          <a
+            href={DEVELOPER_GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-400 underline decoration-zinc-600/60 underline-offset-2 transition hover:text-sky-400 hover:decoration-sky-400/50"
+          >
+            GitHub
+          </a>
         </p>
       </div>
     </footer>

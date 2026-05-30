@@ -81,3 +81,8 @@ export function getRobloxGameUrl(branch: CommunityBranch): string | null {
 export function isRobloxMapAvailable(branch: CommunityBranch): boolean {
   return getRobloxGameUrl(branch) !== null;
 }
+
+/** Créditos do desenvolvedor do site (rodapé). */
+export const DEVELOPER_NAME = "Kiover";
+export const DEVELOPER_PORTFOLIO_URL = "https://kioverdll.discloud.app";
+export const DEVELOPER_GITHUB_URL = "https://github.com/safadaooofc";
