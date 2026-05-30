@@ -4,8 +4,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadEnvFile } from "../scripts/load-env.mjs";
 import { addUserToReuelGuilds, isAutoJoinEnabled } from "./discord-auto-join.mjs";
-import { registerSupportGuildCommands, handleDiscordInteraction } from "./discord-bot.mjs";
-import { ensureLogChannels } from "./discord-channels.mjs";
+import { handleDiscordInteraction } from "./discord-bot.mjs";
+import { runDiscordStartupCheck } from "./discord-startup.mjs";
 import { logAuth, logError, logGeneral } from "./discord-logs.mjs";
 import { verifyDiscordRequest } from "./discord-verify.mjs";
 import { createApiRouter, refreshSessionAdmin } from "./routes/api.mjs";
@@ -41,6 +41,7 @@ app.post(
   async (req, res) => {
     const rawBody = req.body?.toString("utf8") ?? "";
     if (!verifyDiscordRequest(req, rawBody)) {
+      console.warn("[discord/interactions] Assinatura inválida — confira DISCORD_PUBLIC_KEY");
       return res.status(401).send("invalid request signature");
     }
     try {
@@ -199,6 +200,19 @@ app.get("/auth/logout", async (req, res) => {
   redirectToApp(res, "/");
 });
 
+app.get("/api/health/discord", async (_req, res) => {
+  const { validateBotToken } = await import("./discord-startup.mjs");
+  const token = await validateBotToken();
+  res.json({
+    botToken: token.ok ? "ok" : "invalid",
+    botUsername: token.ok ? token.username : null,
+    publicKey: Boolean(process.env.DISCORD_PUBLIC_KEY?.trim()),
+    supportGuildId: process.env.DISCORD_SUPPORT_GUILD_ID?.trim() || null,
+    interactionsPath: "/discord/interactions",
+    note: "Bot pode aparecer offline no Discord; slash commands usam esta URL.",
+  });
+});
+
 app.use("/api", createApiRouter());
 
 /** Proxy do widget Discord — evita CORS no browser em produção. */
@@ -228,14 +242,7 @@ app.get("*", (_req, res) => {
 app.listen(PORT, HOST, () => {
   console.log(`[reuel] http://${HOST}:${PORT}`);
 
-  ensureLogChannels()
-    .then((r) => {
-      if (r.ok) console.log("[reuel] Canais de log Discord prontos");
-      else console.warn("[reuel] Logs Discord:", r.reason ?? "skip");
-    })
-    .catch((e) => console.warn("[reuel] ensureLogChannels:", e));
-
-  registerSupportGuildCommands().catch((e) => console.warn("[reuel] register commands:", e));
+  runDiscordStartupCheck(BASE_URL).catch((e) => console.warn("[reuel] discord startup:", e));
 
   logGeneral("Servidor iniciado", `API em ${BASE_URL}`, [
     { name: "Porta", value: String(PORT), inline: true },

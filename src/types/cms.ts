@@ -1,3 +1,19 @@
+export type AnnouncementColor =
+  | "blue"
+  | "amber"
+  | "violet"
+  | "emerald"
+  | "rose"
+  | "red"
+  | "slate"
+  | "custom";
+
+export type AnnouncementPosition =
+  | "after-hero"
+  | "before-hero"
+  | "sticky-top"
+  | "before-footer";
+
 export type Announcement = {
   id: string;
   title: string;
@@ -5,6 +21,14 @@ export type Announcement = {
   branch: "all" | "rp" | "eb";
   active: boolean;
   createdAt: string;
+  /** Ordem na página (menor = primeiro). */
+  order?: number;
+  /** Onde o anúncio aparece na home. */
+  position?: AnnouncementPosition;
+  /** Tema de cor pré-definido. */
+  color?: AnnouncementColor;
+  /** Cor hex (#rrggbb) quando color = custom. */
+  customColor?: string;
 };
 
 export type CmsRuleSection = {
@@ -40,11 +64,17 @@ export type CmsTeam = {
   groups: CmsTeamGroup[];
 };
 
+export type SiteSettings = {
+  siteName?: string;
+  tagline?: string;
+};
+
 export type SiteContent = {
   announcements: Announcement[];
   rulesRp: CmsRules;
   rulesEb: CmsRules;
   team: { teams: CmsTeam[] };
+  settings?: SiteSettings;
   updatedAt?: string;
 };
 

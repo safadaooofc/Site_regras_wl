@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AnnouncementsBanner } from "../components/AnnouncementsBanner";
+import { AnnouncementsByPosition } from "../components/AnnouncementsBanner";
 import { Hero } from "../components/Hero";
 import { useSiteContent } from "../hooks/useSiteContent";
 import { SectionAbout } from "../components/SectionAbout";
@@ -49,12 +49,19 @@ function DiscordJoinNotice() {
 
 export function Home() {
   const { content } = useSiteContent();
+  const announcements = content?.announcements ?? [];
+  const hasSticky = announcements.some(
+    (a) => a.active !== false && (a.position ?? "after-hero") === "sticky-top"
+  );
 
   return (
-    <main>
+    <main className={hasSticky ? "pt-[var(--announcement-sticky,0px)]" : ""}>
+      <AnnouncementsByPosition items={announcements} position="sticky-top" />
       <DiscordJoinNotice />
-      <AnnouncementsBanner items={content?.announcements ?? []} />
-      <Hero />
+      <Hero>
+        <AnnouncementsByPosition items={announcements} position="before-hero" />
+      </Hero>
+      <AnnouncementsByPosition items={announcements} position="after-hero" />
       <StatsBar />
       <SectionAbout />
       <SectionRules />
@@ -62,6 +69,7 @@ export function Home() {
       <SectionDiscord />
       <SectionEquipe />
       <SectionBanners />
+      <AnnouncementsByPosition items={announcements} position="before-footer" />
       <SectionCTA />
     </main>
   );

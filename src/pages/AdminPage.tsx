@@ -6,11 +6,18 @@ import { invalidateSiteContentCache } from "../hooks/useSiteContent";
 import { ADMIN_ROLE_LABELS, type AdminRole } from "../types/admin";
 import type {
   Announcement,
+  AnnouncementColor,
+  AnnouncementPosition,
   CmsDocument,
   CmsRuleCategory,
   CmsRules,
   CmsTeam,
 } from "../types/cms";
+import {
+  ANNOUNCEMENT_COLOR_LABELS,
+  ANNOUNCEMENT_POSITION_LABELS,
+  getAnnouncementStyles,
+} from "../utils/announcementStyles";
 
 type Tab = "announcements" | "rules-rp" | "rules-eb" | "team" | "admins";
 
@@ -306,6 +313,7 @@ export function AdminPage() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [testingLog, setTestingLog] = useState(false);
 
   const load = useCallback(async () => {
     try {
@@ -363,6 +371,29 @@ export function AdminPage() {
       </main>
     );
   }
+
+  const testDiscordLog = async () => {
+    setTestingLog(true);
+    setMessage(null);
+    try {
+      const res = await fetch("/api/admin/test-log", {
+        method: "POST",
+        credentials: "same-origin",
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setMessage(`Log de teste enviado via ${data.via ?? "Discord"}. Veja o canal 📢-geral ou webhook.`);
+      } else {
+        setMessage(
+          "Log não chegou. Rode /setup-logs no Discord, confira DISCORD_BOT_TOKEN e permissão Enviar mensagens."
+        );
+      }
+    } catch {
+      setMessage("Falha ao testar log.");
+    } finally {
+      setTestingLog(false);
+    }
+  };
 
   const persist = async () => {
     if (!cms) return;
@@ -437,6 +468,14 @@ export function AdminPage() {
                 Importar .txt
               </button>
             )}
+            <button
+              type="button"
+              className="btn-secondary text-sm"
+              disabled={testingLog}
+              onClick={testDiscordLog}
+            >
+              {testingLog ? "Testando log…" : "Testar log Discord"}
+            </button>
             <button type="button" className="btn-primary text-sm" disabled={saving} onClick={persist}>
               {saving ? "Salvando…" : "Salvar e publicar"}
             </button>
@@ -467,6 +506,11 @@ export function AdminPage() {
 
         {cms && tab === "announcements" && (
           <div className="mt-8 space-y-4">
+            <p className="text-sm text-zinc-500">
+              Escolha <strong className="text-zinc-400">posição</strong> e{" "}
+              <strong className="text-zinc-400">cor</strong> de cada anúncio. Ordem: número menor
+              aparece primeiro.
+            </p>
             <button
               type="button"
               className="btn-secondary text-sm"
@@ -482,6 +526,9 @@ export function AdminPage() {
                       branch: "all",
                       active: true,
                       createdAt: new Date().toISOString(),
+                      order: cms.announcements.length,
+                      position: "after-hero",
+                      color: "blue",
                     },
                   ],
                 })
@@ -593,6 +640,10 @@ function AnnouncementRow({
   onChange: (p: Partial<Announcement>) => void;
   onRemove: () => void;
 }) {
+  const styles = getAnnouncementStyles(item);
+  const position = item.position ?? "after-hero";
+  const color = item.color ?? "blue";
+
   return (
     <div className="glass-card rounded-lg border border-white/10 p-4">
       <div className="flex flex-wrap gap-3">
@@ -601,6 +652,13 @@ function AnnouncementRow({
           value={item.title}
           onChange={(e) => onChange({ title: e.target.value })}
           placeholder="Título"
+        />
+        <input
+          type="number"
+          className="w-20 rounded-md border border-white/10 bg-black/30 px-2 py-2 text-sm text-white"
+          value={item.order ?? 0}
+          onChange={(e) => onChange({ order: Number(e.target.value) })}
+          title="Ordem"
         />
         <select
           className="rounded-md border border-white/10 bg-black/30 px-3 py-2 text-sm text-white"
@@ -613,6 +671,39 @@ function AnnouncementRow({
           <option value="rp">Capital MT BR</option>
           <option value="eb">Exército Brasileiro</option>
         </select>
+        <select
+          className="rounded-md border border-white/10 bg-black/30 px-3 py-2 text-sm text-white"
+          value={position}
+          onChange={(e) =>
+            onChange({ position: e.target.value as AnnouncementPosition })
+          }
+        >
+          {(Object.keys(ANNOUNCEMENT_POSITION_LABELS) as AnnouncementPosition[]).map((p) => (
+            <option key={p} value={p}>
+              {ANNOUNCEMENT_POSITION_LABELS[p]}
+            </option>
+          ))}
+        </select>
+        <select
+          className="rounded-md border border-white/10 bg-black/30 px-3 py-2 text-sm text-white"
+          value={color}
+          onChange={(e) => onChange({ color: e.target.value as AnnouncementColor })}
+        >
+          {(Object.keys(ANNOUNCEMENT_COLOR_LABELS) as AnnouncementColor[]).map((c) => (
+            <option key={c} value={c}>
+              {ANNOUNCEMENT_COLOR_LABELS[c]}
+            </option>
+          ))}
+        </select>
+        {color === "custom" && (
+          <input
+            type="color"
+            className="h-10 w-14 cursor-pointer rounded border border-white/10 bg-transparent"
+            value={item.customColor?.startsWith("#") ? item.customColor : "#2563eb"}
+            onChange={(e) => onChange({ customColor: e.target.value })}
+            title="Cor personalizada"
+          />
+        )}
         <label className="flex items-center gap-2 text-sm text-zinc-400">
           <input
             type="checkbox"
@@ -629,8 +720,26 @@ function AnnouncementRow({
         className="mt-3 min-h-[80px] w-full rounded-md border border-white/10 bg-black/30 px-3 py-2 text-sm text-zinc-200"
         value={item.body}
         onChange={(e) => onChange({ body: e.target.value })}
-        placeholder="Texto do anúncio (aparece na página inicial)"
+        placeholder="Texto do anúncio"
       />
+      <div className="mt-4">
+        <p className="mb-2 text-xs text-zinc-500">Pré-visualização</p>
+        <div
+          className={`rounded-lg border px-4 py-3 ${styles.border} ${styles.bg}`}
+          style={
+            color === "custom" && item.customColor
+              ? {
+                  borderColor: `${item.customColor}55`,
+                  backgroundColor: `${item.customColor}18`,
+                }
+              : undefined
+          }
+        >
+          <p className={`text-xs font-semibold uppercase ${styles.label}`}>Prévia</p>
+          <p className={`mt-1 font-semibold ${styles.title}`}>{item.title || "Título"}</p>
+          <p className={`mt-1 text-sm ${styles.body}`}>{item.body || "Texto…"}</p>
+        </div>
+      </div>
     </div>
   );
 }

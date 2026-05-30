@@ -8,7 +8,7 @@ import {
 } from "./admin-registry.mjs";
 import { getSupportGuildId } from "./discord-channels.mjs";
 import { logAdmin, logError } from "./discord-logs.mjs";
-import { userIsSupportGuildAdministrator } from "./discord-admin.mjs";
+import { canManageSiteAdminsDiscord } from "./discord-admin.mjs";
 
 const INTERACTION_PONG = 1;
 const INTERACTION_APPLICATION_COMMAND = 2;
@@ -116,13 +116,6 @@ function canRunAdminCommands(actorId, guildId) {
   return { ok: true };
 }
 
-async function canManageSiteAdmins(actorId) {
-  const entry = findSiteAdmin(actorId);
-  if (entry?.role === "super" || entry?.role === "support") return true;
-  if (await userIsSupportGuildAdministrator(actorId)) return true;
-  return false;
-}
-
 export async function handleDiscordInteraction(body) {
   if (body.type === INTERACTION_PONG) {
     return interactionReply({ type: INTERACTION_PONG });
@@ -176,12 +169,12 @@ export async function handleDiscordInteraction(body) {
       });
     }
 
-    if (!(await canManageSiteAdmins(actorId))) {
+    if (!(await canManageSiteAdminsDiscord(actorId))) {
       return interactionReply({
         type: 4,
         data: {
           content:
-            "Sem permissão. Precisa ser **Administrador** no servidor de suporte ou admin `super`/`support` no site.",
+            "Sem permissão. Você precisa: estar em `DISCORD_ADMIN_USER_IDS`, ser **Administrador** no Discord (suporte ou filial), ou já ser admin `super`/`support` registrado.",
           flags: 64,
         },
       });

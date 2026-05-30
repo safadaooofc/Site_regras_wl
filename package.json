@@ -13,7 +13,8 @@
     "dev:api": "node server/index.js",
     "build": "node scripts/sync-content.mjs && node scripts/generate-public-images-manifest.mjs && vite build",
     "start": "node server/index.js",
-    "discord:register": "node scripts/register-discord-commands.mjs"
+    "discord:register": "node scripts/register-discord-commands.mjs",
+    "discord:diagnose": "node scripts/discord-diagnose.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",

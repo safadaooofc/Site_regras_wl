@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import {
   COMPANY_NAME,
@@ -8,7 +9,7 @@ import {
 } from "../config/community";
 import { RobloxJoinButton } from "./RobloxJoinButton";
 
-export function Hero() {
+export function Hero({ children }: { children?: ReactNode }) {
   return (
     <section
       id="inicio"
@@ -19,6 +20,7 @@ export function Hero() {
         aria-hidden
       />
       <div className="relative mx-auto max-w-6xl px-4 md:px-6">
+        {children}
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-medium uppercase tracking-widest text-blue-400/90">
             {COMPANY_NAME}

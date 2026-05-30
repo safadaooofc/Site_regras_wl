@@ -130,6 +130,22 @@ export function importCmsFromFiles(updatedBy = null) {
   return saveCms(data);
 }
 
+function normalizeAnnouncement(a, index) {
+  return {
+    order: index,
+    position: "after-hero",
+    color: "blue",
+    active: true,
+    ...a,
+    position: a.position ?? "after-hero",
+    color: a.color ?? "blue",
+    order: typeof a.order === "number" ? a.order : index,
+  };
+}
+
 export function getActiveAnnouncements(cms) {
-  return (cms.announcements ?? []).filter((a) => a.active !== false);
+  return (cms.announcements ?? [])
+    .map((a, i) => normalizeAnnouncement(a, i))
+    .filter((a) => a.active !== false)
+    .sort((a, b) => a.order - b.order);
 }

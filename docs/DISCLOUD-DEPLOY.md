@@ -12,6 +12,17 @@
 
 Não há um “bot separado” rodando 24h em WebSocket. O Discord **chama seu site** quando alguém usa um comando slash. Por isso site + bot funcionam no mesmo `npm start`.
 
+### O bot aparece “offline” no Discord?
+
+**Sim, isso é esperado.** Este projeto não mantém conexão Gateway 24h. O bot pode ficar com bolinha cinza, mas **`/setup-logs` e `/add-admin` funcionam** se:
+
+1. O site na Discloud estiver **online**
+2. **Interactions Endpoint URL** estiver configurada
+3. **`DISCORD_BOT_TOKEN`** for o token real da aba **Bot** (não Client ID)
+4. Você usar os comandos no **servidor de suporte** (`1480648105522106484`)
+
+Teste: abra `https://reueleberp.discloud.app/api/health/discord` — deve mostrar `"botToken": "ok"`.
+
 O arquivo `discloud.config` do projeto já está pronto para isso.
 
 ---

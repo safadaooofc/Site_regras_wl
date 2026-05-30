@@ -66,6 +66,30 @@ export async function resolveSiteAdmin(userId) {
   return { isAdmin: false, role: null, source: null };
 }
 
+/**
+ * Quem pode usar /add-admin e /remove-admin no Discord.
+ * Inclui DISCORD_ADMIN_USER_IDS, admins registrados super/support,
+ * e Administrador no suporte ou em qualquer servidor da rede.
+ */
+export async function canManageSiteAdminsDiscord(actorId) {
+  const overrides = parseOverrideIds();
+  if (overrides.has(actorId)) return true;
+
+  const registered = findSiteAdmin(actorId);
+  if (registered?.role === "super" || registered?.role === "support") return true;
+
+  if (await userIsSupportGuildAdministrator(actorId)) return true;
+
+  const botToken = process.env.DISCORD_BOT_TOKEN?.trim();
+  if (botToken) {
+    for (const guildId of getAutoJoinGuildIds()) {
+      if (await memberHasAdminInGuild(actorId, guildId)) return true;
+    }
+  }
+
+  return false;
+}
+
 /** @deprecated use resolveSiteAdmin */
 export async function userIsDiscordAdministrator(userId) {
   const r = await resolveSiteAdmin(userId);

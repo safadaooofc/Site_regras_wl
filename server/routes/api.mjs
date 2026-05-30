@@ -9,7 +9,7 @@ import {
   loadCms,
   saveCms,
 } from "../cms-store.mjs";
-import { logCms } from "../discord-logs.mjs";
+import { logCms, logGeneral } from "../discord-logs.mjs";
 
 function requireUser(req, res, next) {
   if (!req.session?.user?.id) {
@@ -94,6 +94,13 @@ export function createApiRouter() {
     const data = importCmsFromFiles(req.session.user.id);
     await logCms("Importação .txt", `Por <@${req.session.user.id}>`, []);
     res.json(data);
+  });
+
+  router.post("/admin/test-log", requireAdmin, async (req, res) => {
+    const result = await logGeneral("Teste de log (painel)", `Solicitado por <@${req.session.user.id}>`, [
+      { name: "Ambiente", value: process.env.BASE_URL || "local", inline: true },
+    ]);
+    res.json(result);
   });
 
   router.post("/admin/refresh-admin", requireUser, async (req, res) => {
