@@ -326,9 +326,11 @@ Esses arquivos estão no `.gitignore`. Em redeploy na Discloud podem ser recriad
 
 ## Segurança
 
+- Política completa: **[SECURITY.md](SECURITY.md)** (como reportar vulnerabilidades, segredos, rotação de tokens).
 - Não commite `.env` nem `data/*.json` com dados reais.
+- Arquivos `*.example` devem ter **placeholders** — nunca tokens reais.
 - `DISCORD_CLIENT_SECRET` e `DISCORD_BOT_TOKEN` só no servidor / painel Discloud.
-- Rotacione tokens se expuser acidentalmente no GitHub.
+- Rotacione tokens no Discord Developer Portal se expuser acidentalmente no GitHub.
 
 ---
 
