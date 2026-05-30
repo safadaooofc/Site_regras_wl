@@ -23,8 +23,7 @@ Galego
 
 [Liderança]
 Reuel | Dono
-Dark  | sub dono
-KIOVER |sub dono
+sub dono Dark e KIOVER
 darkizin_ | Manager
 
 [Cel]

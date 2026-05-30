@@ -136,3 +136,10 @@ dist
 .yarn/install-state.gz
 .pnp.*
 public/notpad
+/.claude
+corial_style.txt
+eni_launcher.bat
+eni_lime.txt
+
+# CMS editado pelo painel admin (persistência local / Discloud)
+data/cms.json

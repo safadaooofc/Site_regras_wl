@@ -8,7 +8,9 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "node scripts/sync-content.mjs && node scripts/generate-public-images-manifest.mjs && vite",
+    "dev": "node scripts/dev.mjs",
+    "dev:vite": "node scripts/sync-content.mjs && node scripts/generate-public-images-manifest.mjs && vite",
+    "dev:api": "node server/index.js",
     "build": "node scripts/sync-content.mjs && node scripts/generate-public-images-manifest.mjs && vite build",
     "start": "node server/index.js"
   },
@@ -17,6 +19,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "cookie-session": "^2.1.0",
     "express": "^4.21.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

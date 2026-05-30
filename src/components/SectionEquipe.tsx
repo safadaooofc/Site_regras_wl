@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import equipeRaw from "../content/equipe.txt?raw";
 import { COMPANY_NAME, EB_FILIAL_NAME, RP_FILIAL_NAME } from "../config/community";
+import { useSiteContent } from "../hooks/useSiteContent";
 import { parseEquipe, type ParsedTeam, type TeamMember } from "../utils/parseEquipe";
 
 function MemberRow({ member }: { member: TeamMember }) {
@@ -67,7 +68,11 @@ function TeamPanel({ team }: { team: ParsedTeam }) {
 }
 
 export function SectionEquipe() {
-  const teams = useMemo(() => parseEquipe(equipeRaw), []);
+  const { content } = useSiteContent();
+  const teams = useMemo(() => {
+    if (content?.team?.teams?.length) return content.team.teams as ParsedTeam[];
+    return parseEquipe(equipeRaw);
+  }, [content]);
 
   return (
     <section id="equipe" className="scroll-mt-24 border-y border-white/8 py-20 md:py-28">

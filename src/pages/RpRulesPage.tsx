@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { CmsRulesPageView } from "../components/rules/CmsRulesPageView";
 import { RuleSectionBlock } from "../components/rules/RuleSectionBlock";
 import { RulesBranchNav } from "../components/rules/RulesBranchNav";
 import { COMPANY_NAME, RP_FILIAL_NAME, getDiscordInvite } from "../config/community";
 import regrasRaw from "../content/regrasrp.txt?raw";
+import { useSiteContent } from "../hooks/useSiteContent";
 import {
   CATEGORY_LABELS,
   CATEGORY_ORDER,
@@ -13,6 +15,8 @@ import {
 } from "../utils/parseRegrasrp";
 
 export function RpRulesPage() {
+  const { content } = useSiteContent();
+  const cmsCategories = content?.rulesRp?.categories;
   const sections = useMemo(() => parseRegrasrp(regrasRaw), []);
   const totals = useMemo(() => countByCategory(sections), [sections]);
   const [active, setActive] = useState<RuleCategory>("geral");
@@ -21,6 +25,18 @@ export function RpRulesPage() {
     () => sections.filter((s) => s.category === active),
     [sections, active]
   );
+
+  if (cmsCategories?.length) {
+    return (
+      <CmsRulesPageView
+        branch="rp"
+        filialName={RP_FILIAL_NAME}
+        pageTitle="Regulamento de Roleplay"
+        pageSubtitle={`Regras da filial ${RP_FILIAL_NAME}. Dúvidas no Discord da filial RP.`}
+        categories={cmsCategories}
+      />
+    );
+  }
 
   return (
     <main className="pb-24 pt-28 md:pb-32 md:pt-32">

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { COMPANY_NAME } from "../config/community";
+import { useAuth } from "../contexts/AuthContext";
+import { DiscordIcon } from "./icons/DiscordIcon";
 
 const links = [
   { href: "/#inicio", label: "Início" },
@@ -16,6 +18,7 @@ const links = [
 export function StickyNav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { user, isAdmin, loading, logout } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -60,6 +63,42 @@ export function StickyNav() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
+          {!loading && !user && (
+            <a
+              href="/auth/login"
+              className="btn-secondary hidden items-center gap-2 sm:inline-flex"
+            >
+              <DiscordIcon className="h-4 w-4" />
+              Entrar
+            </a>
+          )}
+          {!loading && user && (
+            <div className="hidden items-center gap-2 sm:flex">
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className="rounded-md border border-amber-600/30 px-2.5 py-1.5 text-xs font-medium text-amber-200 hover:bg-amber-600/10"
+                >
+                  Painel
+                </Link>
+              )}
+              <img
+                src={user.avatarUrl}
+                alt=""
+                className="h-8 w-8 rounded-full border border-white/10"
+              />
+              <span className="max-w-[120px] truncate text-sm text-zinc-300">
+                {user.globalName || user.username}
+              </span>
+              <button
+                type="button"
+                onClick={logout}
+                className="text-xs text-zinc-500 transition-colors hover:text-zinc-300"
+              >
+                Sair
+              </button>
+            </div>
+          )}
           <a href="/#cta" className="btn-primary hidden sm:inline-flex" onClick={() => setOpen(false)}>
             Contato
           </a>
@@ -102,6 +141,43 @@ export function StickyNav() {
             <a href="/#cta" className="btn-primary mt-2 text-center" onClick={() => setOpen(false)}>
               Contato
             </a>
+            {!loading && !user && (
+              <a
+                href="/auth/login"
+                className="btn-secondary mt-1 flex items-center justify-center gap-2"
+              >
+                <DiscordIcon className="h-4 w-4" />
+                Entrar com Discord
+              </a>
+            )}
+            {!loading && user && (
+              <div className="mt-2 flex items-center gap-3 rounded-md bg-white/5 px-3 py-3">
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    className="text-xs font-medium text-amber-300"
+                    onClick={() => setOpen(false)}
+                  >
+                    Painel
+                  </Link>
+                )}
+                <img
+                  src={user.avatarUrl}
+                  alt=""
+                  className="h-8 w-8 rounded-full border border-white/10"
+                />
+                <span className="flex-1 truncate text-sm text-zinc-300">
+                  {user.globalName || user.username}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => { setOpen(false); logout(); }}
+                  className="text-xs text-zinc-500 transition-colors hover:text-zinc-300"
+                >
+                  Sair
+                </button>
+              </div>
+            )}
           </nav>
         </div>
       )}

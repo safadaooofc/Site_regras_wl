@@ -42,8 +42,9 @@ if not exist ".env" (
 )
 
 echo ========================================
-echo   Reuel - servidor de desenvolvimento
-echo   URL: http://localhost:5173
+echo   Reuel - desenvolvimento (Vite + API OAuth)
+echo   Site: http://localhost:5173
+echo   API:  http://localhost:8080 (proxy /auth)
 echo   Pare com Ctrl+C ou feche esta janela
 echo ========================================
 echo.

@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { CmsRulesPageView } from "../components/rules/CmsRulesPageView";
 import { RuleSectionBlock } from "../components/rules/RuleSectionBlock";
 import { RulesBranchNav } from "../components/rules/RulesBranchNav";
 import { COMPANY_NAME, EB_FILIAL_NAME, getDiscordInvite } from "../config/community";
+import { useSiteContent } from "../hooks/useSiteContent";
 import manualCaboRaw from "../content/manual-cabo.txt?raw";
 import regrasBasicasRaw from "../content/regras-basicas-recrutamento.txt?raw";
 import regrasEbRaw from "../content/regrasEB.txt?raw";
@@ -18,6 +20,9 @@ import {
 } from "../utils/parseRegrasEB";
 
 export function EbRulesPage() {
+  const { content } = useSiteContent();
+  const cmsCategories = content?.rulesEb?.categories;
+
   const sections = useMemo(
     () =>
       mergeEbSections(
@@ -36,6 +41,18 @@ export function EbRulesPage() {
   );
 
   const ebInvite = getDiscordInvite("eb");
+
+  if (cmsCategories?.length) {
+    return (
+      <CmsRulesPageView
+        branch="eb"
+        filialName={EB_FILIAL_NAME}
+        pageTitle="Documentação EB"
+        pageSubtitle="Regras e manuais do Exército Brasileiro (Reuel). Dúvidas no Discord da filial EB."
+        categories={cmsCategories}
+      />
+    );
+  }
 
   return (
     <main className="pb-24 pt-28 md:pb-32 md:pt-32">
